@@ -28,13 +28,13 @@ Development of a [`singularity` & `snakemake`](https://github.com/sylvainschmitt
 ## Get
 
 ```{python, eval=F, echo=T}
-rule get_reference:
+rule reference_get:
     output:
         "data/reference.fa.gz"
     log:
-        "logs/get_reference.log"
+        "logs/reference_get.log"
     benchmark:
-        "benchmarks/get_reference.benchmark.txt"
+        "benchmarks/reference_get.benchmark.txt"
     threads: 4
     shell:
         "wget {config[reference]} -O {output}"
@@ -43,15 +43,15 @@ rule get_reference:
 ## Statistics
 
 ```{python, eval=F, echo=T}
-rule stat_reference:
+rule reference_stats:
     input:
         "data/reference.fa.gz"
     output:
         "data/reference.stats.txt"
     log:
-        "logs/stat_reference.log"
+        "logs/reference_stat.log"
     benchmark:
-        "benchmarks/stat_reference.benchmark.txt"
+        "benchmarks/reference_stat.benchmark.txt"
     threads: 4
     singularity: 
         "oras://registry.forgemia.inra.fr/gafl/singularity/bioawk/bioawk:latest"
@@ -71,6 +71,59 @@ read_tsv("data/reference.stats.txt", col_names = c("name", "length")) %>%
   scale_fill_manual("Selected", values = c("grey", "darkblue"))
 ```
 
+## Convert
+
+```{python, eval=F, echo=T}
+rule reference_convert:
+    input:
+        "data/reference.fa.gz"
+    output:
+        "data/reference.sam.fa.gz"
+    log:
+        "logs/reference_convert.log"
+    benchmark:
+        "benchmarks/reference_convert.benchmark.txt"
+    threads: 4
+    shell:
+        "zcat {input} | bgzip -c > {output}"
+```
+
+## Index
+
+```{python, eval=F, echo=T}
+rule reference_index:
+    input:
+        "data/reference.fa.gz"
+    log:
+        "logs/reference_index.log"
+    benchmark:
+        "benchmarks/reference_index.benchmark.txt"
+    threads: 4
+    singularity: 
+        "oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest"
+    shell:
+        "samtools faidx {input}"
+```
+
+## Subsample
+
+```{python, eval=F, echo=T}
+rule reference_subsample:
+    input:
+        "data/reference.sam.fa.gz"
+    output:
+        "data/sample.fa.gz"
+    log:
+        "logs/reference_subsample.log"
+    benchmark:
+        "benchmarks/reference_subsample.benchmark.txt"
+    threads: 4
+    singularity: 
+        "oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest"
+    shell:
+        "samtools faidx {input} {config[chromosome]} > {output}"
+```
+
 # All
 
 ```{bash, eval=F, echo=T}
@@ -82,4 +135,3 @@ snakemake --use-singularity
 ```{r}
 knitr::include_graphics("dag/dag.svg")
 ```
-

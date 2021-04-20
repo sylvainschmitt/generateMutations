@@ -7,6 +7,9 @@ April 20, 2021
   - [Reference](#reference)
       - [Get](#get)
       - [Statistics](#statistics)
+      - [Convert](#convert)
+      - [Index](#index)
+      - [Subsample](#subsample)
   - [All](#all)
 
 Development of a [`singularity` &
@@ -20,13 +23,13 @@ workflow to generate *in silico* mutations.
 ## Get
 
 ``` python
-rule get_reference:
+rule reference_get:
     output:
         "data/reference.fa.gz"
     log:
-        "logs/get_reference.log"
+        "logs/reference_get.log"
     benchmark:
-        "benchmarks/get_reference.benchmark.txt"
+        "benchmarks/reference_get.benchmark.txt"
     threads: 4
     shell:
         "wget {config[reference]} -O {output}"
@@ -35,15 +38,15 @@ rule get_reference:
 ## Statistics
 
 ``` python
-rule stat_reference:
+rule reference_stats:
     input:
         "data/reference.fa.gz"
     output:
         "data/reference.stats.txt"
     log:
-        "logs/stat_reference.log"
+        "logs/reference_stat.log"
     benchmark:
-        "benchmarks/stat_reference.benchmark.txt"
+        "benchmarks/reference_stat.benchmark.txt"
     threads: 4
     singularity: 
         "oras://registry.forgemia.inra.fr/gafl/singularity/bioawk/bioawk:latest"
@@ -52,6 +55,59 @@ rule stat_reference:
 ```
 
 ![](README_files/figure-gfm/refStats-1.png)<!-- -->
+
+## Convert
+
+``` python
+rule reference_convert:
+    input:
+        "data/reference.fa.gz"
+    output:
+        "data/reference.sam.fa.gz"
+    log:
+        "logs/reference_convert.log"
+    benchmark:
+        "benchmarks/reference_convert.benchmark.txt"
+    threads: 4
+    shell:
+        "zcat {input} | bgzip -c > {output}"
+```
+
+## Index
+
+``` python
+rule reference_index:
+    input:
+        "data/reference.fa.gz"
+    log:
+        "logs/reference_index.log"
+    benchmark:
+        "benchmarks/reference_index.benchmark.txt"
+    threads: 4
+    singularity: 
+        "oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest"
+    shell:
+        "samtools faidx {input}"
+```
+
+## Subsample
+
+``` python
+rule reference_subsample:
+    input:
+        "data/reference.sam.fa.gz"
+    output:
+        "data/sample.fa.gz"
+    log:
+        "logs/reference_subsample.log"
+    benchmark:
+        "benchmarks/reference_subsample.benchmark.txt"
+    threads: 4
+    singularity: 
+        "oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest"
+    shell:
+        "samtools faidx {input} {config[chromosome]} > {output}"
+```
 
 # All
 
