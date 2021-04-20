@@ -1,0 +1,12 @@
+# R
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*_cache
+# snakemake
+.snakemake
+# outputs
+benchmarks
+data
+logs

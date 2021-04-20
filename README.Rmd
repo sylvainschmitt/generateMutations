@@ -1,0 +1,85 @@
+---
+title: "generate Mutations"
+author: Sylvain Schmitt
+date: April 20, 2021
+output:
+  github_document: 
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+rm(list = ls()) ; invisible(gc()) ; set.seed(42)
+library(knitr)
+library(kableExtra)
+if(knitr:::is_html_output()) options(knitr.table.format = "html") 
+if(knitr:::is_latex_output()) options(knitr.table.format = "latex") 
+library(tidyverse)
+theme_set(bayesplot::theme_default())
+opts_chunk$set(echo = F, message = F, warning = F, fig.height = 6, fig.width = 8,
+               cache = T, cache.lazy = F)
+```
+
+Development of a [`singularity` & `snakemake`](https://github.com/sylvainschmitt/snakemake_singularity) workflow to generate *in silico* mutations.
+
+# Summary
+
+# Reference
+
+## Get
+
+```{python, eval=F, echo=T}
+rule get_reference:
+    output:
+        "data/reference.fa.gz"
+    log:
+        "logs/get_reference.log"
+    benchmark:
+        "benchmarks/get_reference.benchmark.txt"
+    threads: 4
+    shell:
+        "wget {config[reference]} -O {output}"
+```
+
+## Statistics
+
+```{python, eval=F, echo=T}
+rule stat_reference:
+    input:
+        "data/reference.fa.gz"
+    output:
+        "data/reference.stats.txt"
+    log:
+        "logs/stat_reference.log"
+    benchmark:
+        "benchmarks/stat_reference.benchmark.txt"
+    threads: 4
+    singularity: 
+        "oras://registry.forgemia.inra.fr/gafl/singularity/bioawk/bioawk:latest"
+    shell:
+        "bioawk -c fastx '{{ print $name, length($seq) }}' < {input} > {output}"
+```
+
+```{r refStats}
+read_tsv("data/reference.stats.txt", col_names = c("name", "length")) %>% 
+  filter(grepl("Chr", name)) %>% 
+  mutate(sel = ifelse(name == yaml::read_yaml("config/config.yml")$chromosome, 1, 0)) %>% 
+  ggplot(aes(name, length/10^6, fill = as.factor(sel))) + 
+  geom_col() +
+  coord_flip() +
+  xlab("Chromosome") +
+  ylab("Mb") +
+  scale_fill_manual("Selected", values = c("grey", "darkblue"))
+```
+
+# All
+
+```{bash, eval=F, echo=T}
+snakemake -np 
+snakemake --dag | dot -Tsvg > dag/dag.svg
+snakemake --use-singularity
+```
+
+```{r}
+knitr::include_graphics("dag/dag.svg")
+```
+
