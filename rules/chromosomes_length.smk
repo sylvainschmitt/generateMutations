@@ -1,13 +1,12 @@
-rule reference_stats:
+rule chromosomes_length:
     input:
-        "results/data/reference.fa.gz"
+        "results/data/genome.fa.gz"
     output:
-        "results/data/reference.stats.txt"
+        "results/data/chromosomes_length.txt"
     log:
-        "results/logs/reference_stat.log"
+        "results/logs/chromosomes_length.log"
     benchmark:
-        "results/benchmarks/reference_stat.benchmark.txt"
-    threads: 4
+        "results/benchmarks/chromosomes_length.benchmark.txt"
     singularity: 
         "oras://registry.forgemia.inra.fr/gafl/singularity/bioawk/bioawk:latest"
     shell:

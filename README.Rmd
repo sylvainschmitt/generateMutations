@@ -16,21 +16,25 @@ if(knitr:::is_latex_output()) options(knitr.table.format = "latex")
 library(tidyverse)
 theme_set(bayesplot::theme_default())
 opts_chunk$set(echo = F, message = F, warning = F, fig.height = 6, fig.width = 8,
-               cache = T, cache.lazy = F)
+               cache = F, cache.lazy = F)
 ```
 
 Development of a [`singularity` & `snakemake`](https://github.com/sylvainschmitt/snakemake_singularity) workflow to generate *in silico* mutations.
 
 # Summary
 
-# References
+# Data
 
-## Get
+## Get genome
 
-## Statistics
+From `r yaml::read_yaml("config/config.yml")$genome`.
+
+## Chromosmes length
+
+Using `bioawk`.
 
 ```{r refStats}
-read_tsv("results/data/reference.stats.txt", col_names = c("name", "length")) %>% 
+read_tsv("results/data/chromosomes_length.txt", col_names = c("name", "length")) %>% 
   filter(grepl("Chr", name)) %>% 
   mutate(sel = ifelse(name == yaml::read_yaml("config/config.yml")$chromosome, 1, 0)) %>% 
   ggplot(aes(name, length/10^6, fill = as.factor(sel))) + 
@@ -41,11 +45,25 @@ read_tsv("results/data/reference.stats.txt", col_names = c("name", "length")) %>
   scale_fill_manual("Selected", values = c("grey", "darkblue"))
 ```
 
-## Convert
+## Sample reference
 
-## Index
+Using `seqkit`.
 
-## Subsample
+# Reads
+
+## Uncompress reference
+
+For `insilicoseq` using temporary file.
+
+## Generate reads
+
+Using `insilicoseq`. [Help](https://insilicoseq.readthedocs.io/en/latest/iss/generate.html#full-list-of-options).
+
+# Mutations
+
+## Generate mutations
+
+Using `SomaticSpike`.
 
 # All
 
@@ -79,8 +97,9 @@ lapply(files, read_tsv) %>%
 
 # Resources
 
-* [TreeMutation pages](https://treemutation.netlify.app/)
+* [TreeMutation pages](https://treemutation.netlify.app/mutations-detection.html#in-silico-mutations)
 * [genologin skanemake template](https://forgemia.inra.fr/bios4biol/workflows/-/tree/06c6a5cb3206a594f9a535ba8d3df3e64682a8bc/Snakemake/template_dev)
 * [Oak genome A4 snakemake](https://forgemia.inra.fr/genome_a4/genome_a4)
+* [singularity images from forgemia](https://forgemia.inra.fr/gafl/singularity)
 
 # References

@@ -5,11 +5,13 @@ configfile: "config/config.yml"
 
 rule all:
     input:
-      "results/data/reference.stats.txt",
-      "results/data/sample.fa.gz"
+      "results/data/chromosomes_length.txt",
+      "results/reads/reads"
         
-include: "rules/reference_get.smk"
-include: "rules/reference_stats.smk"
-include: "rules/reference_convert.smk"
-include: "rules/reference_index.smk"
-include: "rules/reference_subsample.smk"
+# Reference
+
+include: "rules/get_genome.smk"
+include: "rules/chromosomes_length.smk"
+include: "rules/sample_reference.smk"
+include: "rules/uncompress_reference.smk"
+include: "rules/generate_reads.smk"

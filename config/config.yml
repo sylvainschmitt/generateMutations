@@ -5,7 +5,9 @@
 ressources: "genologin.yaml"
 
 # Reference
-reference: "https://urgi.versailles.inra.fr/download/oak/Qrob_PM1N.fa.gz"
+genome: "https://urgi.versailles.inra.fr/download/oak/Qrob_PM1N.fa.gz"
 chromosome: "Qrob_Chr01"
 
-
+# Generating reads
+illumina: "hiseq"
+n_reads: 1000000
