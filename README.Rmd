@@ -51,10 +51,15 @@ read_tsv("results/data/reference.stats.txt", col_names = c("name", "length")) %>
 
 ```{bash, eval=F, echo=T}
 snakemake -np 
-snakemake --dag | dot -Tsvg > dag/dag.svg
+snakemake --dag | dot -Tsvg > workflow/dag.svg
 snakemake --use-singularity
+snakemake --report workflow/report.html
 ```
 
+**[Link to the report](https://github.com/sylvainschmitt/generateMutations/blob/main/workflow/report.html)**
+
 ```{r}
-knitr::include_graphics("dag/dag.svg")
+knitr::include_graphics("workflow/dag.svg")
 ```
+
+
