@@ -23,7 +23,7 @@ Development of a [`singularity` & `snakemake`](https://github.com/sylvainschmitt
 
 # Summary
 
-# Reference
+# References
 
 ## Get
 
@@ -49,6 +49,8 @@ read_tsv("results/data/reference.stats.txt", col_names = c("name", "length")) %>
 
 # All
 
+## Commands
+
 ```{bash, eval=F, echo=T}
 snakemake -np 
 snakemake --dag | dot -Tsvg > dag/dag.svg
@@ -56,8 +58,29 @@ snakemake --use-singularity
 snakemake --report results/report.html
 ```
 
+## DAG
+
 ```{r}
 knitr::include_graphics("dag/dag.svg")
 ```
 
+## Benchamrk
 
+```{r benchmark}
+files <- list.files("results/benchmarks", full.names = T)
+names(files) <- gsub(".benchmark.txt", "", gsub("results/benchmarks/", "", files))
+lapply(files, read_tsv) %>% 
+  bind_rows(.id = "rule") %>% 
+  ggplot(aes(reorder(rule, s), `h:m:s`)) +
+  geom_col() +
+  coord_flip() +
+  xlab("") + ylab("Time")
+```
+
+# Resources
+
+* [TreeMutation pages](https://treemutation.netlify.app/)
+* [genologin skanemake template](https://forgemia.inra.fr/bios4biol/workflows/-/tree/06c6a5cb3206a594f9a535ba8d3df3e64682a8bc/Snakemake/template_dev)
+* [Oak genome A4 snakemake](https://forgemia.inra.fr/genome_a4/genome_a4)
+
+# References

@@ -8,3 +8,4 @@
 .snakemake
 # outputs
 results
+report.html
