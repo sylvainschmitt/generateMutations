@@ -11,7 +11,7 @@
 # Environment
 module purge
 module load bioinfo/snakemake-5.8.1
-module load system/singularity-3.5.1
+module load system/singularity-3.6.4
 
 # Variables
 CONFIG=config/genologin.yaml
