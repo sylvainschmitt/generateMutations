@@ -7,6 +7,4 @@
 # snakemake
 .snakemake
 # outputs
-benchmarks
-data
-logs
+results

@@ -1,0 +1,4 @@
+__default__:
+	mem: "4G"
+	vmem: "8G"
+	cpus: 8

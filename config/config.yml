@@ -1,6 +1,9 @@
 ## Sylvain SCHMITT
 ## 20/04/2021
 
+# Ressources
+ressources: "genologin.yaml"
+
 # Reference
 reference: "https://urgi.versailles.inra.fr/download/oak/Qrob_PM1N.fa.gz"
 chromosome: "Qrob_Chr01"
