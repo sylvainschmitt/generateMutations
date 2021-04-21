@@ -36,12 +36,9 @@ workflow to generate *in silico* mutations.
 
 ``` bash
 snakemake -np 
-snakemake --dag | dot -Tsvg > workflow/dag.svg
+snakemake --dag | dot -Tsvg > dag/dag.svg
 snakemake --use-singularity
-snakemake --report workflow/report.html
+snakemake --report results/report.html
 ```
 
-**[Link to the
-report](https://github.com/sylvainschmitt/generateMutations/blob/main/workflow/report.html)**
-
-![](workflow/dag.svg)<!-- -->
+![](dag/dag.svg)<!-- -->
