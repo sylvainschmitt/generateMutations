@@ -1,4 +1,5 @@
 __default__:
+  jobname: "default"
   mem: "4G"
-  vmem: "8G"
   cpus: 8
+  time: "01:10:00"
