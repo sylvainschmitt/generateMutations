@@ -1,8 +1,10 @@
 rule generate_reads:
     input:
-        temp("results/reads/sample.fa")
+        "results/data/sample.fa"
     output:
-        "results/reads/reads"
+        temp("results/reads/reads_R1.fastq.gz"),
+        temp("results/reads/reads_R2.fastq.gz"),
+        temp("results/reads/reads_abundance.txt")
     log:
         "results/logs/generate_reads.log"
     benchmark:
@@ -10,4 +12,4 @@ rule generate_reads:
     singularity: 
         "docker://hadrieng/insilicoseq:latest"
     shell:
-        "iss generate --genomes {input} --model {config[illumina]} --n_reads {config[n_reads]} --cpus {threads} --o {output} --compress"
+        "iss generate --genomes {input} --model {config[illumina]} --n_reads {config[n_reads]} --cpus {threads} --o results/reads/reads --compress"

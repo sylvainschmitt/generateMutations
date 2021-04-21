@@ -2,7 +2,7 @@ rule uncompress_reference:
     input:
         "results/data/sample.fa.gz"
     output:
-        temp("results/reads/sample.fa")
+        temp("results/data/sample.fa")
     log:
         "results/logs/uncompress_reference.log"
     benchmark:

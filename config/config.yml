@@ -10,4 +10,5 @@ chromosome: "Qrob_Chr01"
 
 # Generating reads
 illumina: "hiseq"
-n_reads: 1000000
+n_reads: 100 # for test
+# n_reads: 1000000

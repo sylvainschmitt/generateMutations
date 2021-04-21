@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --time=01:00:00
-#SBATCH -J snaketest
-#SBATCH -o snaketest.%N.%j.out
-#SBATCH -e snaketest.%N.%j.err
+#SBATCH -J genMut
+#SBATCH -o genMut.%N.%j.out
+#SBATCH -e genMut.%N.%j.err
 #SBATCH --mem=1G
 #SBATCH --cpus-per-task=1
 #SBATCH --mail-type=ALL

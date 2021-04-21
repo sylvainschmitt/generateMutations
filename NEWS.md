@@ -1,3 +1,9 @@
+# generateMutation 0.1.9004
+* runcompress reference
+* generate reads
+* split reads
+* mutate.py
+
 # generateMutation 0.1.9003
 * renaming rules
 * config/genologin.yaml
