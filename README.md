@@ -38,6 +38,7 @@ workflow to generate *in silico* mutations.
 snakemake -np 
 snakemake --dag | dot -Tsvg > dag/dag.svg
 snakemake --use-singularity
+snakemake --report results/report.html
 ```
 
 ![](dag/dag.svg)<!-- -->

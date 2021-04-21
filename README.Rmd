@@ -53,8 +53,11 @@ read_tsv("results/data/reference.stats.txt", col_names = c("name", "length")) %>
 snakemake -np 
 snakemake --dag | dot -Tsvg > dag/dag.svg
 snakemake --use-singularity
+snakemake --report results/report.html
 ```
 
 ```{r}
 knitr::include_graphics("dag/dag.svg")
 ```
+
+
