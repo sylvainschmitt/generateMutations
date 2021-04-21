@@ -9,3 +9,6 @@
 # outputs
 results
 report.html
+# genologin
+*.err
+*.out
