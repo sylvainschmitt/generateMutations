@@ -20,7 +20,7 @@ CORES=32
 mkdir -p snake_subjob_log
 
 # Workflow
-snakemake -s Snakefile -n -r --use-singularity -j $CORES --cluster-config $CONFIG --cluster "$COMMAND"
+snakemake -s Snakefile --use-singularity -j $CORES --cluster-config $CONFIG --cluster "$COMMAND"
 # snakemake -s Snakefile --report results/smk_report.html lack jinja2
 
 ## Session informations

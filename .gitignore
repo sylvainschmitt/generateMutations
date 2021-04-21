@@ -8,3 +8,6 @@
 .snakemake
 # outputs
 results
+# genologin
+*.err
+*.out
