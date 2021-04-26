@@ -1,13 +1,14 @@
 rule sample_reference:
     input:
-        "results/data/genome.fa.gz"
+        expand("results/source/{file}{ext}", file=config["genome"]["sequence"], ext=["", ".fai"]),
+        "results/base_reference/base_reference.bed",
     output:
-        "results/data/sample.fa.gz"
+        "results/base_reference/base_reference.fa"
     log:
         "results/logs/sample_reference.log"
     benchmark:
         "results/benchmarks/sample_reference.benchmark.txt"
     singularity: 
-        "oras://registry.forgemia.inra.fr/gafl/singularity/seqkit/seqkit:latest"
+        "oras://registry.forgemia.inra.fr/gafl/singularity/bedtools/bedtools:latest"
     shell:
-        "seqkit grep -i -r -p '{config[chromosome]}' {input} -o {output}"
+        "bedtools getfasta -fi {input[0]} -bed {input[2]} > {output}"

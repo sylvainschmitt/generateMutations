@@ -12,6 +12,7 @@
 module purge
 module load bioinfo/snakemake-5.8.1
 module load system/singularity-3.6.4
+module load system/Python-3.6.3 # for jinja2
 
 # Variables
 CONFIG=config/genologin.yaml
@@ -23,7 +24,7 @@ mkdir -p snake_subjob_log
 
 # Workflow
 snakemake -s Snakefile --use-singularity -j $CORES --cluster-config $CONFIG --cluster "$COMMAND"
-# snakemake -s Snakefile --report results/smk_report.html lack jinja2
+snakemake -s Snakefile --report results/smk_report.html
 
 ## Session informations
 echo '########################################'

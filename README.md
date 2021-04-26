@@ -3,79 +3,100 @@ generate Mutations
 Sylvain Schmitt
 April 20, 2021
 
-  - [Summary](#summary)
-  - [Data](#data)
-      - [Get genome](#get-genome)
-      - [Chromosmes length](#chromosmes-length)
-      - [Sample reference](#sample-reference)
-  - [Reads](#reads)
-      - [Uncompress reference](#uncompress-reference)
-      - [Generate reads](#generate-reads)
-      - [Split reads](#split-reads)
-  - [Mutations](#mutations)
-      - [Generate mutations](#generate-mutations)
-  - [All](#all)
+  - [Source](#source)
+  - [**Base** reference](#base-reference)
+  - [**Mutated** reference](#mutated-reference)
+  - [**Base** reads](#base-reads)
+  - [**Mutated** reads](#mutated-reads)
+  - [Misc](#misc)
       - [Commands](#commands)
       - [DAG](#dag)
       - [Benchamrk](#benchamrk)
-  - [Resources](#resources)
-      - [GitHub](#github)
-  - [References](#references)
+      - [Resources](#resources)
+          - [GitHub](#github)
+      - [References](#references)
 
 Development of a [`singularity` &
 `snakemake`](https://github.com/sylvainschmitt/snakemake_singularity)
 workflow to generate *in silico* mutations.
 
-# Summary
+# Source
 
-# Data
+Get source data.
 
-## Get genome
+  - Rule:
+    [`get_source`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/get_source.smk),
+    [`uncompress_source`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/uncompress_source.smk)
+    &
+    [`index_source`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/index_source.smk)
+  - Tools: `snakemake.remote.HTTP`, `mv`, `zcat` & [`samtools
+    faidx`](http://www.htslib.org/doc/samtools-faidx.html)
+  - Address: <http://urgi.versailles.inra.fr/download/oak/>
+  - Files: Qrob\_PM1N.fa, Qrob\_PM1N\_genes\_20161004.gff,
+    Qrob\_PM1N\_refTEs.gff
+  - Singularity:
+    “oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest”
 
-From <https://urgi.versailles.inra.fr/download/oak/Qrob_PM1N.fa.gz>
-using `wget`.
+# **Base** reference
 
-## Chromosmes length
+Subsample genome with chromosome and positions.
 
-Using `bioawk`.
+  - Rules:
+    [`reference_bed`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/reference_bed.smk)
+    &
+    [`sample_reference`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/sample_reference.smk)
+  - Tools: `echo` & [`bedtools
+    getfasta`](https://bedtools.readthedocs.io/en/latest/content/tools/getfasta.html)
+  - Singularity:
+    oras://registry.forgemia.inra.fr/gafl/singularity/bedtools/bedtools:latest
+  - Sample: Qrob\_Chr01:0-1000
 
-![](README_files/figure-gfm/refStats-1.png)<!-- -->
+# **Mutated** reference
 
-## Sample reference
+Mutate reference.
 
-Using `seqkit gep`.
-[Help](https://bioinf.shenwei.me/seqkit/usage/#grep).
+  - Rules:
+    [`generate_mutations`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_mutations.smk)
+  - Script:
+    [`generate_mutations.R`](https://bedtools.readthedocs.io/en/latest/content/scripts/generate_mutations.R)
+  - Singularity:
+    <https://depot.galaxyproject.org/singularity/bioconductor-biostrings:2.58.0--r40hd029910_1>
+  - Mutations:
+      - Number: 10
+      - Transition/Transversion ratio (see below): 0.5
 
-# Reads
+To be upgraded on several chromosomes and with annotation (beware R
+might start to be slow for such a task): transposable elements,
+heterosigozity, genes.
 
-## Uncompress reference
+![](https://dridk.me/images/post17/transition_transversion.png)<!-- -->
 
-For `insilicoseq` using `gzip`.
+# **Base** reads
 
-## Generate reads
+Generate reads from base reference.
 
-Using `insilicoseq`.
-[Help](https://insilicoseq.readthedocs.io/en/latest/iss/generate.html#full-list-of-options).
+  - Rules:
+  - Tools:
+    [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
+  - Singularity: “docker://hadrieng/insilicoseq:latest”
+  - Parameters:
+      - Sequencing machine: hiseq
+      - Number of reads: 1000
 
-## Split reads
+# **Mutated** reads
 
-Using `seqkit split2` and `mv`.
-[Help](https://bioinf.shenwei.me/seqkit/usage/#split2).
+Generate mixed reads from base and mutated reference.
 
-# Mutations
+  - Rules:
+  - Tools:
+    [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
+  - Singularity: “docker://hadrieng/insilicoseq:latest”
+  - Parameters:
+      - Allelic fraction: 0.6
+      - Sequencing machine: hiseq
+      - Number of reads: 1000
 
-## Generate mutations
-
-How?
-
-  - Using `SomaticSpike`.
-  - Using script `mutate.py` on the reference and generating again reads
-    to be mixde for mutation frequency
-  - Using [`msbar` from
-    `EMBOSS`](http://emboss.sourceforge.net/apps/release/6.4/emboss/apps/msbar.html)
-    with previous strategy
-
-# All
+# Misc
 
 ## Commands
 
@@ -94,7 +115,7 @@ snakemake --report results/report.html
 
 ![](README_files/figure-gfm/benchmark-1.png)<!-- -->
 
-# Resources
+## Resources
 
   - [TreeMutation
     pages](https://treemutation.netlify.app/mutations-detection.html#in-silico-mutations)
@@ -104,8 +125,9 @@ snakemake --report results/report.html
     snakemake](https://forgemia.inra.fr/genome_a4/genome_a4)
   - [singularity images from
     forgemia](https://forgemia.inra.fr/gafl/singularity)
+  - [biocontainers](https://biocontainers.pro/tools/bioconductor-biostrings)
 
-## GitHub
+### GitHub
 
   - <https://github.com/ShixiangWang/sigminer>
   - <https://github.com/ShixiangWang/sigflow>
@@ -114,4 +136,4 @@ snakemake --report results/report.html
   - <https://github.com/luntergroup/octopus>
   - <https://github.com/G3viz/g3viz>
 
-# References
+## References

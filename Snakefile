@@ -1,21 +1,23 @@
 ## Sylvain SCHMITT
 ## 20/04/2021
 
+import os
+from snakemake.remote.HTTP import RemoteProvider as HTTPRemoteProvider
+HTTP = HTTPRemoteProvider()
+
 configfile: "config/config.yml"
 
 rule all:
     input:
-      "results/data/chromosomes_length.txt",
-      "results/reads/normal_R1.fastq.gz",
-      "results/reads/normal_R2.fastq.gz",
-      "results/reads/premutated_R1.fastq.gz",
-      "results/reads/premutated_R2.fastq.gz"
+        "results/base_reference/base_reference.fa",
+        "results/mutated_reference/mutation.tsv",
+        "results/mutated_reference/mutated_reference.fa"
         
-# Reference
+# Rules
 
-include: "rules/get_genome.smk"
-include: "rules/chromosomes_length.smk"
+include: "rules/get_source.smk"
+include: "rules/uncompress_source.smk"
+include: "rules/index_source.smk"
+include: "rules/reference_bed.smk"
 include: "rules/sample_reference.smk"
-include: "rules/uncompress_reference.smk"
-include: "rules/generate_reads.smk"
-include: "rules/split_reads.smk"
+include: "rules/generate_mutations.smk"
