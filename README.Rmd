@@ -23,17 +23,17 @@ Development of a [`singularity` & `snakemake`](https://github.com/sylvainschmitt
 
 # Source
 
-Get source data.
+*Get source data.*
 
-* Rule: [`get_source`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/get_source.smk), [`uncompress_source`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/uncompress_source.smk) & [`index_source`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/index_source.smk)
+* Rule: [`get_source`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/get_source.smk), [`uncompress`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/uncompress.smk) & [`index`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/index.smk)
 * Tools: `snakemake.remote.HTTP`, `mv`, `zcat` & [`samtools faidx`](http://www.htslib.org/doc/samtools-faidx.html)
 * Address: http://`r yaml::read_yaml("config/config.yml")$genome$address`
 * Files: `r yaml::read_yaml("config/config.yml")$genome$sequence`, `r yaml::read_yaml("config/config.yml")$genome$genes`, `r yaml::read_yaml("config/config.yml")$genome$TE`
-* Singularity: "oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest"
+* Singularity: oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest
 
 # **Base** reference
 
-Subsample genome with chromosome and positions.
+*Subsample genome with chromosome and positions.*
 
 * Rules: [`reference_bed`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/reference_bed.smk) & [`sample_reference`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/sample_reference.smk)
 * Tools: `echo` & [`bedtools getfasta`](https://bedtools.readthedocs.io/en/latest/content/tools/getfasta.html)
@@ -42,11 +42,11 @@ Subsample genome with chromosome and positions.
 
 # **Mutated** reference
 
-Mutate reference.
+*Mutate reference.*
 
 * Rules: [`generate_mutations`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_mutations.smk)
 * Script: [`generate_mutations.R`](https://bedtools.readthedocs.io/en/latest/content/scripts/generate_mutations.R)
-* Singularity: https://depot.galaxyproject.org/singularity/bioconductor-biostrings:2.58.0--r40hd029910_1
+* Singularity: https://depot.galaxyproject.org/singularity/bioconductor-biostrings:2.58.0--r40hd029910_1 (fail and I don't know why, maybe I should build my own image)
 * Mutations:
     * Number: `r yaml::read_yaml("config/config.yml")$mutations$number`
     * Transition/Transversion ratio (see below): `r yaml::read_yaml("config/config.yml")$mutations$R`
@@ -59,55 +59,46 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 
 # **Base** reads
 
-Generate reads from base reference.
+*Generate reads from base reference.*
 
-* Rules:
+* Rules: [`generate_reads`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_reads.smk)
 * Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
-* Singularity:  "docker://hadrieng/insilicoseq:latest"
+* Singularity:  docker://hadrieng/insilicoseq:latest
 * Parameters:
     * Sequencing machine: `r yaml::read_yaml("config/config.yml")$sequencing$illumina` 
-    * Number of reads: `r yaml::read_yaml("config/config.yml")$sequencing$n_reads` 
+    * Number of reads: `r yaml::read_yaml("config/config.yml")$sequencing$n_reads` (150X)
 
 # **Mutated** reads
 
-Generate mixed reads from base and mutated reference.
+*Generate mixed reads from base and mutated reference.*
 
-* Rules:
+* Rules: [`generate_reads`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_reads.smk) & [`merge_reads`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/merge_reads.smk)
 * Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
-* Singularity:  "docker://hadrieng/insilicoseq:latest"
+* Singularity:  docker://hadrieng/insilicoseq:latest
 * Parameters:
     * Allelic fraction: `r yaml::read_yaml("config/config.yml")$mutations$AF` 
     * Sequencing machine: `r yaml::read_yaml("config/config.yml")$sequencing$illumina` 
-    * Number of reads: `r yaml::read_yaml("config/config.yml")$sequencing$n_reads` 
-
-# Misc
+    * Number of reads: `r yaml::read_yaml("config/config.yml")$sequencing$n_reads` (150X)
+        
+# Miscellaneous
 
 ## Commands
+
+*To run locally.*
 
 ```{bash, eval=F, echo=T}
 snakemake -np 
 snakemake --dag | dot -Tsvg > dag/dag.svg
-snakemake --use-singularity
+snakemake --use-singularity --cores 4
 snakemake --report results/report.html
 ```
 
-## DAG
+## Direct Acyclic Graph
+
+*Represent rules.*
 
 ```{r}
 knitr::include_graphics("dag/dag.svg")
-```
-
-## Benchamrk
-
-```{r benchmark}
-files <- list.files("results/benchmarks", full.names = T)
-names(files) <- gsub(".benchmark.txt", "", gsub("results/benchmarks/", "", files))
-lapply(files, read_tsv, na = c("-", "NA")) %>% 
-  bind_rows(.id = "rule") %>% 
-  ggplot(aes(reorder(rule, s), `h:m:s`)) +
-  geom_col() +
-  coord_flip() +
-  xlab("") + ylab("Time")
 ```
 
 ## Resources
@@ -118,13 +109,9 @@ lapply(files, read_tsv, na = c("-", "NA")) %>%
 * [singularity images from forgemia](https://forgemia.inra.fr/gafl/singularity)
 * [biocontainers](https://biocontainers.pro/tools/bioconductor-biostrings)
 
-### GitHub
-
 * https://github.com/ShixiangWang/sigminer
 * https://github.com/ShixiangWang/sigflow
 * https://github.com/FunGeST/Palimpsest
 * https://github.com/IARCbioinfo/needlestack
 * https://github.com/luntergroup/octopus
 * https://github.com/G3viz/g3viz
-
-## References

@@ -25,9 +25,9 @@ mutations:
     # homozygote: 0 (non-genic, non-te)
     number: 10
     R: 0.5 # transition/transversion ratio
-    AF: 0.6 #allelic fraction
+    AF: 0.6 # allelic fraction
 
 # Reads
 sequencing:
     illumina: "hiseq"
-    n_reads: 1000 
+    n_reads: 1000 # 150X : 1000bp ref/ 150bp reads * 150 cov

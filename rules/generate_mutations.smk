@@ -9,7 +9,8 @@ rule generate_mutations:
         "results/logs/generate_mutations.log"
     benchmark:
         "results/benchmarks/generate_mutations.benchmark.txt"
-    singularity:
-        "https://depot.galaxyproject.org/singularity/bioconductor-biostrings:2.58.0--r40hd029910_1"
+#    singularity:
+#        "https://depot.galaxyproject.org/singularity/bioconductor-biostrings:2.58.0--r40hd029910_1"
+# This fail and I don't know why, maybe I should build my own image
     script:
         "../scripts/generate_mutations.R"

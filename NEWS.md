@@ -1,3 +1,10 @@
+# generateMutation 0.1.9006
+* 1st full pipeline
+* generate_mutations
+* generate_reads
+* merge_reads
+* rename index & uncompress
+
 # generateMutation 0.1.9005
 * new organisation and rules
 
