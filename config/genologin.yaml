@@ -4,14 +4,26 @@ __default__:
   cpus: 8
   time: "48:00:00"
 
-get_genome:
-  jobname: "get_genome"
+get_source:
+  jobname: "get_source"
   mem: "4G"
   cpus: 1
   time: "01:00:00"
 
-chromosomes_length:
-  jobname: "chromosomes_length"
+uncompress:
+  jobname: "uncompress"
+  mem: "4G"
+  cpus: 1
+  time: "01:00:00"
+  
+index:
+  jobname: "index"
+  mem: "4G"
+  cpus: 1
+  time: "01:00:00"
+  
+reference_bed:
+  jobname: "reference_bed"
   mem: "4G"
   cpus: 1
   time: "01:00:00"
@@ -22,15 +34,21 @@ sample_reference:
   cpus: 1
   time: "01:00:00"
   
-uncompress_reference:
-  jobname: "uncompress_reference"
+generate_mutations:
+  jobname: "generate_mutations"
   mem: "4G"
-  cpus: 1
-  time: "01:00:00"
+  cpus: 1 # R without parrallel, to be optimized 
+  time: "10:00:00"
   
 generate_reads:
-  jobname: "generate_reads"
-  mem: "100G"
+  jobname: "generate_mutations"
+  mem: "40G"
   cpus: 10
   time: "01:00:00"
+  
+merge_reads:
+  jobname: "merge_reads"
+  mem: "4G"
+  cpus: 1
+  time: "10:00:00"
   

@@ -133,6 +133,10 @@ snakemake --report results/report.html
 
   - [biocontainers](https://biocontainers.pro/tools/bioconductor-biostrings)
 
+  - <https://forgemia.inra.fr/adminforgemia/doc-public/-/wikis/Gitlab-Container-Registry>
+
+  - <https://souchal.pages.in2p3.fr/hugo-perso/2019/09/20/tutorial-singularity-and-docker/>
+
   - <https://github.com/ShixiangWang/sigminer>
 
   - <https://github.com/ShixiangWang/sigflow>

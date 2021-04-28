@@ -1,3 +1,6 @@
+# generateMutation 0.1.9007
+* integrated Biostrings with singularity on my GitHub
+
 # generateMutation 0.1.9006
 * 1st full pipeline
 * generate_mutations
