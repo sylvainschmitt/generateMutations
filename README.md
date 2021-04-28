@@ -56,9 +56,7 @@ workflow to generate *in silico* mutations.
     [`generate_mutations`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_mutations.smk)
   - Script:
     [`generate_mutations.R`](https://bedtools.readthedocs.io/en/latest/content/scripts/generate_mutations.R)
-  - Singularity:
-    <https://depot.galaxyproject.org/singularity/bioconductor-biostrings:2.58.0--r40hd029910_1>
-    (fail and I don’t know why, maybe I should build my own image)
+  - Singularity:“<https://github.com/sylvainschmitt/singularity-template/releases/download/0.0.1/sylvainschmitt-singularity-tidyverse-Biostrings.latest.sif>”
   - Mutations:
       - Number: 10
       - Transition/Transversion ratio (see below): 0.5
