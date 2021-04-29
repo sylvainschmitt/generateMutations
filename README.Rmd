@@ -63,6 +63,8 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 
 *Generate reads from base reference.*
 
+**Beware on genologin, singularity pull failed to create singularity image from docker in .snakemake/singularity/. I had to manually use singularity build instead to create the image with the correct name in the location. To be explored. Maybe we should consider having a single script to generate imges in an img/ folders to bu used after by the pipeline.**
+
 * Rules: [`generate_reads`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_reads.smk)
 * Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
 * Singularity:  docker://hadrieng/insilicoseq:latest
@@ -92,7 +94,7 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 snakemake -np # dry run
 snakemake --dag | dot -Tsvg > dag/dag.svg # dag
 snakemake --use-singularity --cores 4 # run
-snakemake --report results/report.html # report
+snakemake --report report.html # report
 ```
 
 *To run on HPC.*
@@ -105,7 +107,7 @@ less genMut.*.err # snakemake outputs, use MAJ+F
 less genMut.*.out # snakemake outputs, use MAJ+F
 snakemake --dag | dot -Tsvg > dag/dag.svg # dag
 module purge ; module load bioinfo/snakemake-5.8.1 ; module load system/Python-3.6.3 # for report
-snakemake --report results/report.html # report
+snakemake --report report.html # report
 ```
 
 ## Direct Acyclic Graph

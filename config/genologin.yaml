@@ -41,7 +41,7 @@ generate_mutations:
   time: "10:00:00"
   
 generate_reads:
-  jobname: "generate_mutations"
+  jobname: "generate_reads"
   mem: "40G"
   cpus: 10
   time: "01:00:00"

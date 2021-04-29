@@ -73,6 +73,13 @@ heterosigozity, genes.
 
 *Generate reads from base reference.*
 
+**Beware on genologin, singularity pull failed to create singularity
+image from docker in .snakemake/singularity/. I had to manually use
+singularity build instead to create the image with the correct name in
+the location. To be explored. Maybe we should consider having a single
+script to generate imges in an img/ folders to bu used after by the
+pipeline.**
+
   - Rules:
     [`generate_reads`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_reads.smk)
   - Tools:
