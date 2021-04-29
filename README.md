@@ -19,6 +19,8 @@ workflow to generate *in silico* mutations.
 
 # Source
 
+**Issue with the rule on genologin.**
+
 *Get source data.*
 
   - Rule:
@@ -28,7 +30,7 @@ workflow to generate *in silico* mutations.
     [`index`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/index.smk)
   - Tools: `snakemake.remote.HTTP`, `mv`, `zcat` & [`samtools
     faidx`](http://www.htslib.org/doc/samtools-faidx.html)
-  - Address: <http://urgi.versailles.inra.fr/download/oak/>
+  - Address: <http://>
   - Files: Qrob\_PM1N.fa, Qrob\_PM1N\_genes\_20161004.gff,
     Qrob\_PM1N\_refTEs.gff
   - Singularity:
@@ -107,6 +109,15 @@ snakemake -np
 snakemake --dag | dot -Tsvg > dag/dag.svg
 snakemake --use-singularity --cores 4
 snakemake --report results/report.html
+```
+
+*To run on HPC.*
+
+``` bash
+sbatch dry_run.sh ; watch 'squeue -u sschmitt'
+sbatch job.sh ; watch 'squeue -u sschmitt'
+less genMut.*.err # for snakemake outputs, use MAJ+F
+less genMut.*.out
 ```
 
 ## Direct Acyclic Graph

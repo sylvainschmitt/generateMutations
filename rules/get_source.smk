@@ -1,17 +1,13 @@
+file=[config["genome"]["sequence"], config["genome"]["genes"], config["genome"]["TE"]]
+
 rule get_source:
     input:
-        HTTP.remote(
-                    expand("{address}{files}.gz", 
-                            address=config["genome"]["address"],
-                            files=[config["genome"]["sequence"], config["genome"]["genes"], config["genome"]["TE"]]),
-                    keep_local=True)
+        HTTP.remote("urgi.versailles.inra.fr/download/oak/{file}.gz", keep_local=True)
     output:
-        protected(expand("results/source/{files}.gz", 
-                        files=[config["genome"]["sequence"], config["genome"]["genes"], config["genome"]["TE"]]))
+        protected("results/source/{file}.gz")
     log:
-        "results/logs/get_source.log"
+        "results/logs/get_{file}.log"
     benchmark:
-        "results/benchmarks/get_source.benchmark.txt"
+        "results/benchmarks/get_{file}.benchmark.txt"
     shell:
         "mv {input} {output}"
-              

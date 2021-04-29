@@ -23,6 +23,8 @@ Development of a [`singularity` & `snakemake`](https://github.com/sylvainschmitt
 
 # Source
 
+**Issue with the rule on genologin.**
+
 *Get source data.*
 
 * Rule: [`get_source`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/get_source.smk), [`uncompress`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/uncompress.smk) & [`index`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/index.smk)
@@ -91,6 +93,15 @@ snakemake -np
 snakemake --dag | dot -Tsvg > dag/dag.svg
 snakemake --use-singularity --cores 4
 snakemake --report results/report.html
+```
+
+*To run on HPC.*
+
+```{bash, eval=F, echo=T}
+sbatch dry_run.sh ; watch 'squeue -u sschmitt'
+sbatch job.sh ; watch 'squeue -u sschmitt'
+less genMut.*.err # for snakemake outputs, use MAJ+F
+less genMut.*.out
 ```
 
 ## Direct Acyclic Graph

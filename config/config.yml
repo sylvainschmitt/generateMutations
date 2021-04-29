@@ -6,7 +6,6 @@ ressources: "genologin.yaml"
 
 # Source
 genome:
-   address: "urgi.versailles.inra.fr/download/oak/"
    sequence: "Qrob_PM1N.fa" # Qrob_PM1N.fa.gz or Qrob_V2_2N.fa.gz
    genes: "Qrob_PM1N_genes_20161004.gff"
    TE: "Qrob_PM1N_refTEs.gff"

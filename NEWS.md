@@ -1,3 +1,6 @@
+# generateMutation 0.1.9008
+* fixed job.sh (python conflict) and get_source
+
 # generateMutation 0.1.9007
 * integrated Biostrings with singularity on my GitHub
 
