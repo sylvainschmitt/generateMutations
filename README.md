@@ -105,19 +105,23 @@ heterosigozity, genes.
 *To run locally.*
 
 ``` bash
-snakemake -np 
-snakemake --dag | dot -Tsvg > dag/dag.svg
-snakemake --use-singularity --cores 4
-snakemake --report results/report.html
+snakemake -np # dry run
+snakemake --dag | dot -Tsvg > dag/dag.svg # dag
+snakemake --use-singularity --cores 4 # run
+snakemake --report results/report.html # report
 ```
 
 *To run on HPC.*
 
 ``` bash
-sbatch dry_run.sh ; watch 'squeue -u sschmitt'
-sbatch job.sh ; watch 'squeue -u sschmitt'
-less genMut.*.err # for snakemake outputs, use MAJ+F
-less genMut.*.out
+module purge ; module load bioinfo/snakemake-5.8.1 # for test on node
+snakemake -np # dry run
+sbatch job.sh ; watch 'squeue -u sschmitt' # run
+less genMut.*.err # snakemake outputs, use MAJ+F
+less genMut.*.out # snakemake outputs, use MAJ+F
+snakemake --dag | dot -Tsvg > dag/dag.svg # dag
+module purge ; module load bioinfo/snakemake-5.8.1 ; module load system/Python-3.6.3 # for report
+snakemake --report results/report.html # report
 ```
 
 ## Direct Acyclic Graph
