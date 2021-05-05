@@ -12,3 +12,6 @@ report.html
 # genologin
 *.err
 *.out
+# data
+*.fa.gz
+*.gff.gz

@@ -1,10 +1,6 @@
 ## Sylvain SCHMITT
 ## 20/04/2021
 
-import os
-from snakemake.remote.HTTP import RemoteProvider as HTTPRemoteProvider
-HTTP = HTTPRemoteProvider()
-
 configfile: "config/config.yml"
 
 rule all:
@@ -16,7 +12,6 @@ rule all:
         
 # Rules
 
-include: "rules/get_source.smk"
 include: "rules/uncompress.smk"
 include: "rules/index.smk"
 include: "rules/reference_bed.smk"

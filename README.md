@@ -3,40 +3,115 @@ generate Mutations
 Sylvain Schmitt
 April 20, 2021
 
-  - [Source](#source)
-  - [**Base** reference](#base-reference)
-  - [**Mutated** reference](#mutated-reference)
-  - [**Base** reads](#base-reads)
-  - [**Mutated** reads](#mutated-reads)
-  - [Miscellaneous](#miscellaneous)
-      - [Commands](#commands)
-      - [Direct Acyclic Graph](#direct-acyclic-graph)
-      - [Resources](#resources)
+  - [Installation](#installation)
+  - [Usage](#usage)
+      - [Get data](#get-data)
+      - [Locally](#locally)
+      - [HPC](#hpc)
+  - [Workflow](#workflow)
+      - [Source](#source)
+      - [**Base** reference](#base-reference)
+      - [**Mutated** reference](#mutated-reference)
+      - [**Base** reads](#base-reads)
+      - [**Mutated** reads](#mutated-reads)
+  - [Results](#results)
 
-Development of a [`singularity` &
+[`singularity` &
 `snakemake`](https://github.com/sylvainschmitt/snakemake_singularity)
 workflow to generate *in silico* mutations.
 
-# Source
+![](dag/dag.svg)<!-- -->
 
-**Issue with the rule on genologin.**
+# Installation
+
+  - [x] Python ≥3.5
+  - [x] Snakemake ≥5.24.1
+  - [x] Golang ≥1.15.2
+  - [x] Singularity ≥3.7.3
+  - [x] This workflow
+
+<!-- end list -->
+
+``` bash
+# Python
+sudo apt-get install python3.5
+# Snakemake
+sudo apt install snakemake`
+# Golang
+export VERSION=1.15.8 OS=linux ARCH=amd64  # change this as you need
+wget -O /tmp/go${VERSION}.${OS}-${ARCH}.tar.gz https://dl.google.com/go/go${VERSION}.${OS}-${ARCH}.tar.gz && \
+sudo tar -C /usr/local -xzf /tmp/go${VERSION}.${OS}-${ARCH}.tar.gz
+echo 'export GOPATH=${HOME}/go' >> ~/.bashrc && \
+echo 'export PATH=/usr/local/go/bin:${PATH}:${GOPATH}/bin' >> ~/.bashrc && \
+source ~/.bashrc
+# Singularity
+mkdir -p ${GOPATH}/src/github.com/sylabs && \
+  cd ${GOPATH}/src/github.com/sylabs && \
+  git clone https://github.com/sylabs/singularity.git && \
+  cd singularity
+git checkout v3.7.3
+cd ${GOPATH}/src/github.com/sylabs/singularity && \
+  ./mconfig && \
+  cd ./builddir && \
+  make && \
+  sudo make install
+# generate Mutations
+git clone git@github.com:sylvainschmitt/generateMutations.git
+cd generateMutations
+```
+
+# Usage
+
+## Get data
+
+*Data from <http://urgi.versailles.inra.fr/download/oak>.*
+
+``` bash
+cd data
+bash scripts/get_data.sh
+```
+
+## Locally
+
+``` bash
+snakemake -np # dry run
+snakemake --dag | dot -Tsvg > dag/dag.svg # dag
+snakemake --use-singularity --cores 4 # run
+snakemake --use-singularity --cores 1 --verbose # debug
+snakemake --report report.html # report
+```
+
+## HPC
+
+``` bash
+module purge ; module load bioinfo/snakemake-5.8.1 # for test on node
+snakemake -np # dry run
+sbatch job.sh ; watch 'squeue -u sschmitt' # run
+less genMut.*.err # snakemake outputs, use MAJ+F
+less genMut.*.out # snakemake outputs, use MAJ+F
+snakemake --dag | dot -Tsvg > dag/dag.svg # dag
+module purge ; module load bioinfo/snakemake-5.8.1 ; module load system/Python-3.6.3 # for report
+snakemake --report report.html # report
+```
+
+# Workflow
+
+## Source
 
 *Get source data.*
 
   - Rule:
-    [`get_source`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/get_source.smk),
     [`uncompress`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/uncompress.smk)
     &
     [`index`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/index.smk)
-  - Tools: `snakemake.remote.HTTP`, `mv`, `zcat` & [`samtools
+  - Tools: `zcat` & [`samtools
     faidx`](http://www.htslib.org/doc/samtools-faidx.html)
-  - Address: <http://>
   - Files: Qrob\_PM1N.fa, Qrob\_PM1N\_genes\_20161004.gff,
     Qrob\_PM1N\_refTEs.gff
   - Singularity:
     oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest
 
-# **Base** reference
+## **Base** reference
 
 *Subsample genome with chromosome and positions.*
 
@@ -50,7 +125,7 @@ workflow to generate *in silico* mutations.
     oras://registry.forgemia.inra.fr/gafl/singularity/bedtools/bedtools:latest
   - Sample: Qrob\_Chr01:0-1000
 
-# **Mutated** reference
+## **Mutated** reference
 
 *Mutate reference.*
 
@@ -69,7 +144,7 @@ heterosigozity, genes.
 
 ![](https://dridk.me/images/post17/transition_transversion.png)<!-- -->
 
-# **Base** reads
+## **Base** reads
 
 *Generate reads from base reference.*
 
@@ -89,7 +164,7 @@ pipeline.**
       - Sequencing machine: hiseq
       - Number of reads: 1000 (150X)
 
-# **Mutated** reads
+## **Mutated** reads
 
 *Generate mixed reads from base and mutated reference.*
 
@@ -105,66 +180,424 @@ pipeline.**
       - Sequencing machine: hiseq
       - Number of reads: 1000 (150X)
 
-# Miscellaneous
+# Results
 
-## Commands
+<table>
 
-*To run locally.*
+<caption>
 
-``` bash
-snakemake -np # dry run
-snakemake --dag | dot -Tsvg > dag/dag.svg # dag
-snakemake --use-singularity --cores 4 # run
-snakemake --report results/report.html # report
-```
+Generated mutations.
 
-*To run on HPC.*
+</caption>
 
-``` bash
-module purge ; module load bioinfo/snakemake-5.8.1 # for test on node
-snakemake -np # dry run
-sbatch job.sh ; watch 'squeue -u sschmitt' # run
-less genMut.*.err # snakemake outputs, use MAJ+F
-less genMut.*.out # snakemake outputs, use MAJ+F
-snakemake --dag | dot -Tsvg > dag/dag.svg # dag
-module purge ; module load bioinfo/snakemake-5.8.1 ; module load system/Python-3.6.3 # for report
-snakemake --report results/report.html # report
-```
+<thead>
 
-## Direct Acyclic Graph
+<tr>
 
-*Represent rules.*
+<th style="text-align:left;">
 
-![](dag/dag.svg)<!-- -->
+Chromosome
 
-## Resources
+</th>
 
-  - [TreeMutation
-    pages](https://treemutation.netlify.app/mutations-detection.html#in-silico-mutations)
+<th style="text-align:right;">
 
-  - [genologin skanemake
-    template](https://forgemia.inra.fr/bios4biol/workflows/-/tree/06c6a5cb3206a594f9a535ba8d3df3e64682a8bc/Snakemake/template_dev)
+Position
 
-  - [Oak genome A4
-    snakemake](https://forgemia.inra.fr/genome_a4/genome_a4)
+</th>
 
-  - [singularity images from
-    forgemia](https://forgemia.inra.fr/gafl/singularity)
+<th style="text-align:left;">
 
-  - [biocontainers](https://biocontainers.pro/tools/bioconductor-biostrings)
+Reference
 
-  - <https://forgemia.inra.fr/adminforgemia/doc-public/-/wikis/Gitlab-Container-Registry>
+</th>
 
-  - <https://souchal.pages.in2p3.fr/hugo-perso/2019/09/20/tutorial-singularity-and-docker/>
+<th style="text-align:left;">
 
-  - <https://github.com/ShixiangWang/sigminer>
+Alternative
 
-  - <https://github.com/ShixiangWang/sigflow>
+</th>
 
-  - <https://github.com/FunGeST/Palimpsest>
+<th style="text-align:left;">
 
-  - <https://github.com/IARCbioinfo/needlestack>
+Type
 
-  - <https://github.com/luntergroup/octopus>
+</th>
 
-  - <https://github.com/G3viz/g3viz>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01:0-1000
+
+</td>
+
+<td style="text-align:right;">
+
+163
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01:0-1000
+
+</td>
+
+<td style="text-align:right;">
+
+166
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+transversion1
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01:0-1000
+
+</td>
+
+<td style="text-align:right;">
+
+213
+
+</td>
+
+<td style="text-align:left;">
+
+G
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+transition
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01:0-1000
+
+</td>
+
+<td style="text-align:right;">
+
+215
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01:0-1000
+
+</td>
+
+<td style="text-align:right;">
+
+278
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+transversion1
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01:0-1000
+
+</td>
+
+<td style="text-align:right;">
+
+474
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+transition
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01:0-1000
+
+</td>
+
+<td style="text-align:right;">
+
+708
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+transition
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01:0-1000
+
+</td>
+
+<td style="text-align:right;">
+
+746
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+transition
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01:0-1000
+
+</td>
+
+<td style="text-align:right;">
+
+844
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01:0-1000
+
+</td>
+
+<td style="text-align:right;">
+
+959
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+transition
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<!-- ## Resources -->
+
+<!-- * [TreeMutation pages](https://treemutation.netlify.app/mutations-detection.html#in-silico-mutations) -->
+
+<!-- * [genologin skanemake template](https://forgemia.inra.fr/bios4biol/workflows/-/tree/06c6a5cb3206a594f9a535ba8d3df3e64682a8bc/Snakemake/template_dev) -->
+
+<!-- * [Oak genome A4 snakemake](https://forgemia.inra.fr/genome_a4/genome_a4) -->
+
+<!-- * [singularity images from forgemia](https://forgemia.inra.fr/gafl/singularity) -->
+
+<!-- * [biocontainers](https://biocontainers.pro/tools/bioconductor-biostrings) -->
+
+<!-- * https://forgemia.inra.fr/adminforgemia/doc-public/-/wikis/Gitlab-Container-Registry -->
+
+<!-- * https://souchal.pages.in2p3.fr/hugo-perso/2019/09/20/tutorial-singularity-and-docker/ -->
+
+<!-- * https://github.com/ShixiangWang/sigminer -->
+
+<!-- * https://github.com/ShixiangWang/sigflow -->
+
+<!-- * https://github.com/FunGeST/Palimpsest -->
+
+<!-- * https://github.com/IARCbioinfo/needlestack -->
+
+<!-- * https://github.com/luntergroup/octopus -->
+
+<!-- * https://github.com/G3viz/g3viz -->

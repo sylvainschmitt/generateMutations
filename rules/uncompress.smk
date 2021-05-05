@@ -2,7 +2,7 @@ files=[config["genome"]["sequence"], config["genome"]["genes"], config["genome"]
 
 rule uncompress:
     input:
-        "results/source/{files}.gz"
+        "data/{files}.gz"
     output:
         "results/source/{files}"
     log:
