@@ -43,22 +43,21 @@ mute <- function(ref, type){
 ref <- readDNAStringSet(base_ref)
 bed <- read_tsv(bed, col_names = c("seq", "start", "stop"))
 bed$seq <- names(ref)
-# names(ref) <- bed$seq
 
-mutations <- bed %>% 
+mutations.pos <- bed %>% 
   rowwise %>% do(pos = paste(.$seq, c(.$start:.$stop))) %>% 
   unlist() %>% 
   sample(mutation_number)
   
-mutations_tab <- data.frame(mutation  = mutations) %>% 
-  separate(mutation, c("CHROM", "POS"), " ") 
+mutations_tab <- data.frame(mutation  = mutations.pos) %>% 
+  separate(mutation, c("CHROM", "POS"), " ") %>% 
+  arrange(CHROM, POS)
   
 mutations_tmp <- group_by(mutations_tab, CHROM) %>% 
   do(range = IRanges(start = as.numeric(.$POS),
                      end = as.numeric(.$POS)))
 
 mutations_range <- IRangesList(mutations_tmp$range)
-names(mutations_range) <- mutations_tmp$CHROM
 
 mutations <- extractAt(ref, mutations_range)
   
@@ -71,6 +70,11 @@ mutations_tmp <- group_by(mutations_tab, CHROM) %>%
   do(mutations = c(.$ALT))
 
 muted <- replaceAt(ref, mutations_range, mutations_tmp$mutations)
+
+if(!all(unlist(extractAt(ref, mutations_range)) == mutations_tab$REF))
+  stop("Error with REF.")
+if(!all(unlist(extractAt(muted, mutations_range)) == mutations_tab$ALT))
+  stop("Error with ALT.")
 
 write_tsv(mutations_tab, file = mut_file)
 writeXStringSet(muted, mut_ref)

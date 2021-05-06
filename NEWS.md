@@ -1,3 +1,6 @@
+# generateMutation 0.1.9012
+* fix generate_mutations.R
+
 # generateMutation 0.1.9011
 * fix chromosome name
 

@@ -164,7 +164,7 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 ```{r}
 read_tsv("results/mutated_reference/mutation.tsv") %>% 
   select(CHROM, POS, REF, ALT, TYPE) %>% 
-  arrange(CHROM, POS, REF, ALT) %>% 
+  arrange(CHROM, POS, REF, ALT) %>%
   kable(col.names = c("Chromosome", "Position", "Reference", "Alternative", "Type"),
         caption = "Generated mutations.")
 ```
