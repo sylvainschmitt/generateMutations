@@ -234,13 +234,13 @@ Type
 
 <td style="text-align:left;">
 
-Qrob\_Chr01:0-1000
+Qrob\_Chr01
 
 </td>
 
 <td style="text-align:right;">
 
-163
+33
 
 </td>
 
@@ -252,41 +252,7 @@ T
 
 <td style="text-align:left;">
 
-A
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-166
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-A
+G
 
 </td>
 
@@ -302,13 +268,47 @@ transversion1
 
 <td style="text-align:left;">
 
-Qrob\_Chr01:0-1000
+Qrob\_Chr01
 
 </td>
 
 <td style="text-align:right;">
 
-213
+112
+
+</td>
+
+<td style="text-align:left;">
+
+G
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+332
 
 </td>
 
@@ -336,13 +336,13 @@ transition
 
 <td style="text-align:left;">
 
-Qrob\_Chr01:0-1000
+Qrob\_Chr01
 
 </td>
 
 <td style="text-align:right;">
 
-215
+725
 
 </td>
 
@@ -370,13 +370,53 @@ transversion2
 
 <td style="text-align:left;">
 
-Qrob\_Chr01:0-1000
+Qrob\_Chr01
 
 </td>
 
 <td style="text-align:right;">
 
-278
+815
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+transition
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+962
+
+</td>
+
+<td style="text-align:left;">
+
+G
 
 </td>
 
@@ -388,7 +428,35 @@ A
 
 <td style="text-align:left;">
 
-C
+transition
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+967
+
+</td>
+
+<td style="text-align:left;">
+
+G
+
+</td>
+
+<td style="text-align:left;">
+
+T
 
 </td>
 
@@ -404,127 +472,25 @@ transversion1
 
 <td style="text-align:left;">
 
-Qrob\_Chr01:0-1000
+Qrob\_Chr02
 
 </td>
 
 <td style="text-align:right;">
 
-474
+190
 
 </td>
 
 <td style="text-align:left;">
 
-T
+G
 
 </td>
 
 <td style="text-align:left;">
 
 C
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-708
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-746
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-844
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-A
 
 </td>
 
@@ -540,25 +506,59 @@ transversion2
 
 <td style="text-align:left;">
 
-Qrob\_Chr01:0-1000
+Qrob\_Chr02
 
 </td>
 
 <td style="text-align:right;">
 
-959
-
-</td>
-
-<td style="text-align:left;">
-
-T
+750
 
 </td>
 
 <td style="text-align:left;">
 
 C
+
+</td>
+
+<td style="text-align:left;">
+
+G
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr02
+
+</td>
+
+<td style="text-align:right;">
+
+984
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+T
 
 </td>
 
