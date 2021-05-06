@@ -11,10 +11,7 @@ genome:
    TE: "Qrob_PM1N_refTEs.gff"
 
 # Base reference
-reference:
-   chromosome: "Qrob_Chr01"
-   start: 0
-   stop: 1000
+reference: "Qrob_Chr01:0-1000; Qrob_Chr02:0-1000"
 
 # Mutations
 mutations:

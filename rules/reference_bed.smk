@@ -6,4 +6,4 @@ rule reference_bed:
     benchmark:
         "results/benchmarks/reference_bed.benchmark.txt"
     shell:
-        "echo '{config[reference][chromosome]}\t{config[reference][start]}\t{config[reference][stop]}' > results/base_reference/base_reference.bed"
+        "bed='{config[reference]}' ; bed=${{bed/; /\\\\n}} ; bed=${{bed//:/\\\\t}} ; bed=${{bed//-/\\\\t}} ; echo -e $bed > {output}"

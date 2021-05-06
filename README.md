@@ -123,7 +123,7 @@ snakemake --report report.html # report
     getfasta`](https://bedtools.readthedocs.io/en/latest/content/tools/getfasta.html)
   - Singularity:
     oras://registry.forgemia.inra.fr/gafl/singularity/bedtools/bedtools:latest
-  - Sample: Qrob\_Chr01:0-1000
+  - Sample: Qrob\_Chr01:0-1000; Qrob\_Chr02:0-1000
 
 ## **Mutated** reference
 

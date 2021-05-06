@@ -114,7 +114,7 @@ snakemake --report report.html # report
 * Rules: [`reference_bed`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/reference_bed.smk) & [`sample_reference`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/sample_reference.smk)
 * Tools: `echo` & [`bedtools getfasta`](https://bedtools.readthedocs.io/en/latest/content/tools/getfasta.html)
 * Singularity: oras://registry.forgemia.inra.fr/gafl/singularity/bedtools/bedtools:latest
-* Sample: `r yaml::read_yaml("config/config.yml")$reference$chromosome`:`r yaml::read_yaml("config/config.yml")$reference$start`-`r yaml::read_yaml("config/config.yml")$reference$stop`
+* Sample: `r yaml::read_yaml("config/config.yml")$reference`
 
 ## **Mutated** reference
 

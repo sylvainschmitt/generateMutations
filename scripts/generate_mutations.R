@@ -41,21 +41,35 @@ mute <- function(ref, type){
 }
 
 ref <- readDNAStringSet(base_ref)
+bed <- read_tsv(bed, col_names = c("seq", "start", "stop"))
+names(ref) <- bed$seq
 
-mutations <- read_tsv(bed, col_names = c("seq", "start", "stop")) %>% 
-  rowwise %>% do(pos = c(.$start:.$stop)) %>% 
+mutations <- bed %>% 
+  rowwise %>% do(pos = paste(.$seq, c(.$start:.$stop))) %>% 
   unlist() %>% 
   sample(mutation_number)
+  
+mutations_tab <- data.frame(mutation  = mutations) %>% 
+  separate(mutation, c("CHROM", "POS"), " ") 
+  
+mutations_tmp <- group_by(mutations_tab, CHROM) %>% 
+  do(range = IRanges(start = as.numeric(.$POS),
+                     end = as.numeric(.$POS)))
 
-mutations_tab <- data.frame(
-  CHROM = ref[1]@ranges@NAMES,
-  POS = mutations,
-  REF = unlist(ref[[1]][mutations])) %>% 
-  mutate(REF = as.character(REF)) %>% 
+mutations_range <- IRangesList(mutations_tmp$range)
+names(mutations_range) <- mutations_tmp$CHROM
+
+mutations <- extractAt(ref, mutations_range)
+  
+mutations_tab <- mutations_tab %>% 
+  mutate(REF = as.vector(unlist(mutations))) %>% 
   mutate(TYPE = mute_type(REF, R = R)) %>% 
   mutate(ALT = mute(REF, TYPE))
 
-muted <- replaceAt(ref, IRangesList(mutations), mutations_tab$ALT)
+mutations_tmp <- group_by(mutations_tab, CHROM) %>% 
+  do(mutations = c(.$ALT))
+
+muted <- replaceAt(ref, mutations_range, mutations_tmp$mutations)
 
 write_tsv(mutations_tab, file = mut_file)
 writeXStringSet(muted, mut_ref)

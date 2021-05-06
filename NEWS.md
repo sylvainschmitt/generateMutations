@@ -1,3 +1,6 @@
+# generateMutation 0.1.9010
+* multiple chromosome version
+
 # generateMutation 0.1.9009
 * data/
 * updated README
