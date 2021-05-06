@@ -1,3 +1,6 @@
+# generateMutation 0.1.9011
+* fix chromosome name
+
 # generateMutation 0.1.9010
 * multiple chromosome version
 

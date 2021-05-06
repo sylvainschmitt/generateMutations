@@ -42,7 +42,8 @@ mute <- function(ref, type){
 
 ref <- readDNAStringSet(base_ref)
 bed <- read_tsv(bed, col_names = c("seq", "start", "stop"))
-names(ref) <- bed$seq
+bed$seq <- names(ref)
+# names(ref) <- bed$seq
 
 mutations <- bed %>% 
   rowwise %>% do(pos = paste(.$seq, c(.$start:.$stop))) %>% 
