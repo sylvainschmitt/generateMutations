@@ -141,7 +141,7 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 
 ## Reads
 
-**`iss` bug in cleaning !**
+**`iss` bug in cleaning!**
 
 > ERROR:iss.util:Could not read temporary file: results/reads_N100_R2_AF0.6_NR50000/base.iss.tmp.Qrob_Chr01.0_R1.fastq
 

@@ -136,7 +136,7 @@ snakemake --report report.html # report
 
 ## Reads
 
-**`iss` bug in cleaning \!**
+**`iss` bug in cleaning\!**
 
 > ERROR:iss.util:Could not read temporary file:
 > results/reads\_N100\_R2\_AF0.6\_NR50000/base.iss.tmp.Qrob\_Chr01.0\_R1.fastq
