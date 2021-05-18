@@ -9,11 +9,9 @@ April 20, 2021
       - [Locally](#locally)
       - [HPC](#hpc)
   - [Workflow](#workflow)
-      - [Source](#source)
-      - [**Base** reference](#base-reference)
-      - [**Mutated** reference](#mutated-reference)
-      - [**Base** reads](#base-reads)
-      - [**Mutated** reads](#mutated-reads)
+      - [Reference](#reference)
+      - [Mutations](#mutations)
+      - [Reads](#reads)
   - [Results](#results)
 
 [`singularity` &
@@ -96,483 +94,81 @@ snakemake --report report.html # report
 
 # Workflow
 
-## Source
+## Reference
 
-*Get source data.*
+### [cp\_files](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/cp_files.smk)
 
-  - Rule:
-    [`uncompress`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/uncompress.smk)
-    &
-    [`index`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/index.smk)
-  - Tools: `zcat` & [`samtools
+  - Tools: `cp`
+  - Parameters:
+      - Sequence: Qrob\_PM1N
+
+### [samtools\_faidx](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/samtools_faidx.smk)
+
+  - Tools: [`samtools
     faidx`](http://www.htslib.org/doc/samtools-faidx.html)
-  - Files: Qrob\_PM1N.fa, Qrob\_PM1N\_genes\_20161004.gff,
-    Qrob\_PM1N\_refTEs.gff
   - Singularity:
     oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest
+  - Parameters:
+      - Chromosome: Qrob\_Chr01
 
-## **Base** reference
+### [vcf2model](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/vcf2model.smk)
 
-*Subsample genome with chromosome and positions.*
+  - Tools: [`simuG`](https://github.com/yjx1217/simuG)
+  - Script: `vcf2model.pl`
 
-  - Rules:
-    [`reference_bed`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/reference_bed.smk)
-    &
-    [`sample_reference`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/sample_reference.smk)
-  - Tools: `echo` & [`bedtools
-    getfasta`](https://bedtools.readthedocs.io/en/latest/content/tools/getfasta.html)
-  - Singularity:
-    oras://registry.forgemia.inra.fr/gafl/singularity/bedtools/bedtools:latest
-  - Sample: Qrob\_Chr01:0-1000; Qrob\_Chr02:0-1000
+### [simug](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/simug.smk)
 
-## **Mutated** reference
+  - Tools: [`simuG`](https://github.com/yjx1217/simuG)
+  - Script: `simuG.pl`
 
-*Mutate reference.*
+## Mutations
 
-  - Rules:
-    [`generate_mutations`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_mutations.smk)
+### [generate\_mutations](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_mutations.smk)
+
   - Script:
     [`generate_mutations.R`](https://bedtools.readthedocs.io/en/latest/content/scripts/generate_mutations.R)
   - Singularity:“<https://github.com/sylvainschmitt/singularity-template/releases/download/0.0.1/sylvainschmitt-singularity-tidyverse-Biostrings.latest.sif>”
-  - Mutations:
-      - Number: 10
-      - Transition/Transversion ratio (see below): 0.5
-
-To be upgraded on several chromosomes and with annotation (beware R
-might start to be slow for such a task): transposable elements,
-heterosigozity, genes.
+  - Parameters:
+      - Number: 100, 1000
+      - Transition/Transversion ratio R (see below): 2, 3
 
 ![](https://dridk.me/images/post17/transition_transversion.png)<!-- -->
 
-## **Base** reads
+## Reads
 
-*Generate reads from base reference.*
+**`iss` bug in cleaning \!**
 
-**Beware on genologin, singularity pull failed to create singularity
-image from docker in .snakemake/singularity/. I had to manually use
-singularity build instead to create the image with the correct name in
-the location. To be explored. Maybe we should consider having a single
-script to generate imges in an img/ folders to bu used after by the
-pipeline.**
+> ERROR:iss.util:Could not read temporary file:
+> results/reads\_N100\_R2\_AF0.6\_NR50000/base.iss.tmp.Qrob\_Chr01.0\_R1.fastq
 
-  - Rules:
-    [`generate_reads`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_reads.smk)
+> ERROR:iss.util:You may have to remove temporary files manually
+
+**This is not a true error as we can clean it manually but it stop
+`snakemake` for he moment.**
+
+### [iss\_base](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_base.smk)
+
   - Tools:
     [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
   - Singularity: docker://hadrieng/insilicoseq:latest
   - Parameters:
-      - Sequencing machine: hiseq
-      - Number of reads: 1000 (150X)
+      - Allele frequency: 0.6, 0.8
+      - Number of reads: 33333, 50000
 
-## **Mutated** reads
+### [iss\_mutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_mutated.smk)
 
-*Generate mixed reads from base and mutated reference.*
-
-  - Rules:
-    [`generate_reads`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_reads.smk)
-    &
-    [`merge_reads`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/merge_reads.smk)
   - Tools:
     [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
   - Singularity: docker://hadrieng/insilicoseq:latest
   - Parameters:
-      - Allelic fraction: 0.6
-      - Sequencing machine: hiseq
-      - Number of reads: 1000 (150X)
+      - Allele frequency: 0.6, 0.8
+      - Number of reads: 33333, 50000
+
+### [merge\_reads](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/merge_reads.smk)
+
+  - Tools: `cat`
 
 # Results
-
-<table>
-
-<caption>
-
-Generated mutations.
-
-</caption>
-
-<thead>
-
-<tr>
-
-<th style="text-align:left;">
-
-Chromosome
-
-</th>
-
-<th style="text-align:right;">
-
-Position
-
-</th>
-
-<th style="text-align:left;">
-
-Reference
-
-</th>
-
-<th style="text-align:left;">
-
-Alternative
-
-</th>
-
-<th style="text-align:left;">
-
-Type
-
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-334
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-transversion1
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-342
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-G
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-538
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-710
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-817
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr02:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-352
-
-</td>
-
-<td style="text-align:left;">
-
-G
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr02:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-665
-
-</td>
-
-<td style="text-align:left;">
-
-G
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr02:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-702
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr02:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-837
-
-</td>
-
-<td style="text-align:left;">
-
-G
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-transversion1
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr02:0-1000
-
-</td>
-
-<td style="text-align:right;">
-
-984
-
-</td>
-
-<td style="text-align:left;">
-
-G
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
 
 <!-- ## Resources -->
 

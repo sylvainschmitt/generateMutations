@@ -1,26 +1,18 @@
+N=config["n_mut"]
+R=config["R"]
+AF=config["AF"]
+NR=config["n_reads"]
+
 rule merge_reads:
     input:
-        expand("results/mutated_reads/{type}_reads_R{strand}.fastq", 
-                type=["base", "mutated"], strand=["1","2"])
+        expand("results/reads_N{N}_R{R}_AF{AF}_NR{NR}/{type}_R{strand}.fastq", 
+                type=["base", "mutated"], strand=["1","2"], allow_missing=True)
     output:
-        "results/mutated_reads/mixed_reads_R1.fastq",
-        "results/mutated_reads/mixed_reads_R2.fastq"
+        expand("results/reads_N{N}_R{R}_AF{AF}_NR{NR}/mixed_R{strand}.fastq",
+                strand=["1","2"], allow_missing=True)
     log:
-        "results/logs/merge_reads.log"
+        "results/logs/merge_reads_N{N}_R{R}_AF{AF}_NR{NR}.log"
     benchmark:
-        "results/benchmarks/merge_reads.benchmark.txt"
+        "results/benchmarks/merge_reads_N{N}_R{R}_AF{AF}_NR{NR}.benchmark.txt"
     shell:
-        "nm=$(python -c \"print(round(2*{config[sequencing][n_reads]}*{config[mutations][AF]}))\") ; "
-        "nb=$(python -c \"print(round(2*{config[sequencing][n_reads]}-$nm))\") ; "
-        "nm=${{nm%.*}} ; nb=${{nb%.*}} ; "
-        # "head {input[0]} -n $nb | awk '{{print (NR%4 == 1) ? \"base_\"$0 : $0}}' > {input[0]}.tmp ; " # renaming fails with fastqc (need better)
-        # "head {input[1]} -n $nb | awk '{{print (NR%4 == 1) ? \"base_\"$0 : $0}}' > {input[1]}.tmp ; "
-        # "head {input[2]} -n $nm | awk '{{print (NR%4 == 1) ? \"mutated_\"$0 : $0}}' > {input[2]}.tmp ; "
-        # "head {input[3]} -n $nm | awk '{{print (NR%4 == 1) ? \"mutated_\"$0 : $0}}' > {input[3]}.tmp ; "
-        "head {input[0]} -n $nb > {input[0]}.tmp ; "
-        "head {input[1]} -n $nb > {input[1]}.tmp ; "
-        "head {input[2]} -n $nm > {input[2]}.tmp ; "
-        "head {input[3]} -n $nm > {input[3]}.tmp ; "
-        "cat {input[0]}.tmp {input[2]}.tmp > {output[0]} ; "
-        "cat {input[1]}.tmp {input[3]}.tmp > {output[1]} ; "
-        "rm {input[0]}.tmp {input[2]}.tmp {input[1]}.tmp {input[3]}.tmp {input}"
+        "cat {input[0]}.tmp {input[2]}.tmp > {output[0]} ; cat {input[1]}.tmp {input[3]}.tmp > {output[1]}"

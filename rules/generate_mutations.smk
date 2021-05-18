@@ -1,14 +1,16 @@
+N=config["n_mut"]
+R=config["R"]
+
 rule generate_mutations:
     input:
-        "results/base_reference/base_reference.bed",
-        "results/base_reference/base_reference.fa"
+        expand("results/reference/{seq}_{chr}.fa", seq=[config["sequence"]],  chr=[config["chr"]])
     output:
-        "results/mutated_reference/mutation.tsv",
-        "results/mutated_reference/mutated_reference.fa"
+        expand("results/mutation_N{N}_R{R}/{seq}_{chr}_mutated_N{N}_R{R}.{ext}", 
+                seq=config["sequence"], chr=config["chr"], ext=["tsv", "fa"], allow_missing=True)
     log:
-        "results/logs/generate_mutations.log"
+        "results/logs/generate_mutations_N{N}_R{R}.log"
     benchmark:
-        "results/benchmarks/generate_mutations.benchmark.txt"
+        "results/benchmarks/generate_mutations_N{N}_R{R}.benchmark.txt"
     singularity:
         "https://github.com/sylvainschmitt/singularity-tidyverse-Biostrings/releases/download/0.0.1/sylvainschmitt-singularity-tidyverse-Biostrings.latest.sif"
     script:

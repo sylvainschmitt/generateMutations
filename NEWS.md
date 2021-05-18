@@ -1,3 +1,14 @@
+# generateMutation 0.1.9013
+* new version to debug (numerous changes)
+* config: new names and list for parameters to explore
+* config.dag: reduced config for dag and tests
+* cp_files: copy files
+* generate_mutations: faster
+* iss_base & iss_mutated: generate reads
+* merge_reads: simplified
+* samtools_faidx: sample reference
+* vcf2model & simuG: heterozigosity
+
 # generateMutation 0.1.9012
 * fix generate_mutations.R
 

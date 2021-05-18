@@ -15,3 +15,5 @@ report.html
 # data
 *.fa.gz
 *.gff.gz
+*.fa
+*.vcf

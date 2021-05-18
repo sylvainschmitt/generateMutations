@@ -1,23 +1,23 @@
-# config
-mutation_number <-  snakemake@config[["mutations"]][["number"]] # yaml::read_yaml("config/config.yml")$mutations$number
-R <- snakemake@config[["mutations"]][["R"]] # yaml::read_yaml("config/config.yml")$mutations$R
 # input
-bed <- snakemake@input[[1]] # "results/base_reference/base_reference.bed"
-base_ref <- snakemake@input[[2]] # "results/base_reference/base_reference.fa"
+base_ref <- snakemake@input[[1]]
+# wildcards
+mutation_number <-  as.numeric(snakemake@wildcards[["N"]])
+R <- as.numeric(snakemake@wildcards[["R"]])
 # output
-mut_file <-  snakemake@output[[1]] # "results/mutated_reference/mutation.tsv"
-mut_ref <- snakemake@output[[2]] # "results/mutated_reference/mutated_reference.fa"
+mut_file <-  snakemake@output[[1]] 
+mut_ref <- snakemake@output[[2]]
 
-# # manual
-# mutation_number <-  yaml::read_yaml("config/config.yml")$mutations$number
-# R <- yaml::read_yaml("config/config.yml")$mutations$R
-# bed <- "results/base_reference/base_reference.bed"
-# base_ref <- "results/base_reference/base_reference.fa"
-# mut_file <-  "results/mutated_reference/mutation.tsv"
-# mut_ref <- "results/mutated_reference/mutated_reference.fa"
+# # # manual
+# base_ref <- "results/reference/Qrob_PM1N_Qrob_Chr01.fa"
+# mutation_number <-  100
+# R <- 2
+# mut_file <-  "results/mutation_N100_R2/Qrob_PM1N_Qrob_Chr01_mutated.tsv"
+# mut_ref <- "results/mutation_N100_R2/Qrob_PM1N_Qrob_Chr01_mutated.fa"
 
 library(tidyverse)
 library(Biostrings)
+
+R <- R/(R+1)
 
 mute_type <- function(ref, R){
   type <- c("transition", "transversion")[rbinom(length(ref), 1, R) + 1]
@@ -41,14 +41,16 @@ mute <- function(ref, type){
 }
 
 ref <- readDNAStringSet(base_ref)
-bed <- read_tsv(bed, col_names = c("seq", "start", "stop"))
-bed$seq <- names(ref)
+bed <- lapply(ref, function(Xch) data.frame(start = 0, stop = length(Xch))) %>% 
+  bind_rows(.id = "seq")
 
-mutations.pos <- bed %>% 
-  rowwise %>% do(pos = paste(.$seq, c(.$start:.$stop))) %>% 
-  unlist() %>% 
-  sample(mutation_number)
-  
+mutations.pos <- data.frame(seq = sample(bed$seq, mutation_number, replace = T)) %>% 
+  group_by(seq) %>% 
+  summarise(N = n()) %>% 
+  left_join(bed) %>% 
+  do(mutations = paste(.$seq, sample(.$start:.$stop, .$N))) %>% 
+  unlist()
+
 mutations_tab <- data.frame(mutation  = mutations.pos) %>% 
   separate(mutation, c("CHROM", "POS"), " ") %>% 
   arrange(CHROM, POS)
@@ -64,7 +66,8 @@ mutations <- extractAt(ref, mutations_range)
 mutations_tab <- mutations_tab %>% 
   mutate(REF = as.vector(unlist(mutations))) %>% 
   mutate(TYPE = mute_type(REF, R = R)) %>% 
-  mutate(ALT = mute(REF, TYPE))
+  mutate(ALT = mute(REF, TYPE)) %>% 
+  mutate(ALT = ifelse(is.na(ALT), "N", ALT))
 
 mutations_tmp <- group_by(mutations_tab, CHROM) %>% 
   do(mutations = c(.$ALT))

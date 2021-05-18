@@ -5,6 +5,7 @@ date: April 20, 2021
 output:
   github_document: 
     toc: yes
+    toc_depth: 2
 ---
 
 ```{r setup, include=FALSE}
@@ -98,76 +99,88 @@ snakemake --report report.html # report
 
 # Workflow
 
-## Source
+## Reference
 
-*Get source data.*
+### [cp_files](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/cp_files.smk)
 
-* Rule: [`uncompress`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/uncompress.smk) & [`index`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/index.smk)
-* Tools: `zcat` & [`samtools faidx`](http://www.htslib.org/doc/samtools-faidx.html)
-* Files: `r yaml::read_yaml("config/config.yml")$genome$sequence`, `r yaml::read_yaml("config/config.yml")$genome$genes`, `r yaml::read_yaml("config/config.yml")$genome$TE`
+* Tools: `cp`
+* Parameters:
+    * Sequence: `r yaml::read_yaml("config/config.yml")$sequence`
+    
+
+### [samtools_faidx](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/samtools_faidx.smk)
+
+* Tools: [`samtools faidx`](http://www.htslib.org/doc/samtools-faidx.html)
 * Singularity: oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest
+* Parameters:
+    * Chromosome: `r yaml::read_yaml("config/config.yml")$chr`
+    
+### [vcf2model](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/vcf2model.smk)
 
-## **Base** reference
+* Tools: [`simuG`](https://github.com/yjx1217/simuG)
+* Script: `vcf2model.pl`
 
-*Subsample genome with chromosome and positions.*
+### [simug](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/simug.smk)
 
-* Rules: [`reference_bed`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/reference_bed.smk) & [`sample_reference`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/sample_reference.smk)
-* Tools: `echo` & [`bedtools getfasta`](https://bedtools.readthedocs.io/en/latest/content/tools/getfasta.html)
-* Singularity: oras://registry.forgemia.inra.fr/gafl/singularity/bedtools/bedtools:latest
-* Sample: `r yaml::read_yaml("config/config.yml")$reference`
+* Tools: [`simuG`](https://github.com/yjx1217/simuG)
+* Script: `simuG.pl`
 
-## **Mutated** reference
+## Mutations
 
-*Mutate reference.*
+### [generate_mutations](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_mutations.smk)
 
-* Rules: [`generate_mutations`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_mutations.smk)
 * Script: [`generate_mutations.R`](https://bedtools.readthedocs.io/en/latest/content/scripts/generate_mutations.R)
 * Singularity:"https://github.com/sylvainschmitt/singularity-template/releases/download/0.0.1/sylvainschmitt-singularity-tidyverse-Biostrings.latest.sif"
-* Mutations:
-    * Number: `r yaml::read_yaml("config/config.yml")$mutations$number`
-    * Transition/Transversion ratio (see below): `r yaml::read_yaml("config/config.yml")$mutations$R`
-
-To be upgraded on several chromosomes and with annotation (beware R might start to be slow for such a task): transposable elements, heterosigozity, genes.
+* Parameters:
+    * Number: `r yaml::read_yaml("config/config.yml")$n_mut`
+    * Transition/Transversion ratio R (see below): `r yaml::read_yaml("config/config.yml")$R`
 
 ```{r R}
 include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 ```
 
-## **Base** reads
+## Reads
 
-*Generate reads from base reference.*
+**`iss` bug in cleaning !**
 
-**Beware on genologin, singularity pull failed to create singularity image from docker in .snakemake/singularity/. I had to manually use singularity build instead to create the image with the correct name in the location. To be explored. Maybe we should consider having a single script to generate imges in an img/ folders to bu used after by the pipeline.**
+> ERROR:iss.util:Could not read temporary file: results/reads_N100_R2_AF0.6_NR50000/base.iss.tmp.Qrob_Chr01.0_R1.fastq
 
-* Rules: [`generate_reads`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_reads.smk)
+> ERROR:iss.util:You may have to remove temporary files manually
+
+**This is not a true error as we can clean it manually but it stop `snakemake` for he moment.**
+
+### [iss_base](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_base.smk)
+
 * Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
 * Singularity:  docker://hadrieng/insilicoseq:latest
 * Parameters:
-    * Sequencing machine: `r yaml::read_yaml("config/config.yml")$sequencing$illumina` 
-    * Number of reads: `r yaml::read_yaml("config/config.yml")$sequencing$n_reads` (150X)
+    * Allele frequency: `r yaml::read_yaml("config/config.yml")$AF`
+    * Number of reads: `r yaml::read_yaml("config/config.yml")$n_reads`
 
-## **Mutated** reads
+### [iss_mutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_mutated.smk)
 
-*Generate mixed reads from base and mutated reference.*
-
-* Rules: [`generate_reads`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_reads.smk) & [`merge_reads`](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/merge_reads.smk)
 * Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
 * Singularity:  docker://hadrieng/insilicoseq:latest
 * Parameters:
-    * Allelic fraction: `r yaml::read_yaml("config/config.yml")$mutations$AF` 
-    * Sequencing machine: `r yaml::read_yaml("config/config.yml")$sequencing$illumina` 
-    * Number of reads: `r yaml::read_yaml("config/config.yml")$sequencing$n_reads` (150X)
-        
+    * Allele frequency: `r yaml::read_yaml("config/config.yml")$AF`
+    * Number of reads: `r yaml::read_yaml("config/config.yml")$n_reads`
+
+### [merge_reads](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/merge_reads.smk)
+
+* Tools: `cat`
 
 # Results
 
-```{r}
+```{r, eval=F}
 read_tsv("results/mutated_reference/mutation.tsv") %>% 
   select(CHROM, POS, REF, ALT, TYPE) %>% 
   arrange(CHROM, POS, REF, ALT) %>%
   kable(col.names = c("Chromosome", "Position", "Reference", "Alternative", "Type"),
         caption = "Generated mutations.")
 ```
+
+
+
 
 <!-- ## Resources -->
 
