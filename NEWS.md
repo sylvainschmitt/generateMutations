@@ -1,3 +1,6 @@
+# generateMutation 0.1.9015
+* obtained expected AF
+
 # generateMutation 0.1.9014
 * fixed Chr names for snps and mutated
 * full working v2
