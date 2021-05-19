@@ -10,7 +10,7 @@
 
 # Environment
 module purge
-module load bioinfo/snakemake-5.8.1
+module load bioinfo/snakemake-5.25.0
 module load system/singularity-3.6.4
 
 # Variables
