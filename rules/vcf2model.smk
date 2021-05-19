@@ -1,6 +1,6 @@
 rule vcf2model:
     input:
-        expand("results/source/{vcf}", vcf=[config["hz"]])
+        expand("data/{vcf}", vcf=[config["hz"]])
     output:
         temp("results/reference/3P.INDEL_model.txt"),
         temp("results/reference/3P.SNP_model.txt")

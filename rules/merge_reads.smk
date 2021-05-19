@@ -5,10 +5,10 @@ NR=config["n_reads"]
 
 rule merge_reads:
     input:
-        expand("results/reads_N{N}_R{R}_AF{AF}_NR{NR}/{type}_R{strand}.fastq", 
+        expand("results/reads/{type}_N{N}_R{R}_AF{AF}_NR{NR}_R{strand}.fastq", 
                 type=["base", "mutated"], strand=["1","2"], allow_missing=True)
     output:
-        expand("results/reads_N{N}_R{R}_AF{AF}_NR{NR}/N{N}_R{R}_AF{AF}_NR{NR}_R{strand}.fastq",
+        expand("results/reads/N{N}_R{R}_AF{AF}_NR{NR}_R{strand}.fastq",
                 strand=["1","2"], allow_missing=True)
     log:
         "results/logs/merge_reads_N{N}_R{R}_AF{AF}_NR{NR}.log"

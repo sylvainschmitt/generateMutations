@@ -1,3 +1,6 @@
+# generateMutation 0.1.9018
+* simplified folders for connection with detectMutations
+
 # generateMutation 0.1.9017
 * snakemake 5.25.0 on genologin to handle allow_missing=True
 

@@ -66,7 +66,7 @@ cd generateMutations
 
 ``` bash
 cd data
-bash scripts/get_data.sh
+bash get_data.sh
 ```
 
 ## Locally
@@ -82,25 +82,19 @@ snakemake --report report.html # report
 ## HPC
 
 ``` bash
-module purge ; module load bioinfo/snakemake-5.8.1 # for test on node
+module purge ; module load bioinfo/snakemake-5.25.0 # for test on node
 snakemake -np # dry run
 sbatch job.sh ; watch 'squeue -u sschmitt' # run
 less genMut.*.err # snakemake outputs, use MAJ+F
 less genMut.*.out # snakemake outputs, use MAJ+F
 snakemake --dag | dot -Tsvg > dag/dag.svg # dag
-module purge ; module load bioinfo/snakemake-5.8.1 ; module load system/Python-3.6.3 # for report
+module purge ; module load bioinfo/snakemake-5.25.0 ; module load system/Python-3.6.3 # for report
 snakemake --report report.html # report
 ```
 
 # Workflow
 
 ## Reference
-
-### [cp\_files](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/cp_files.smk)
-
-  - Tools: `cp`
-  - Parameters:
-      - Sequence: Qrob\_PM1N
 
 ### [samtools\_faidx](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/samtools_faidx.smk)
 
@@ -218,7 +212,7 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-26686574
+27661823
 
 </td>
 
@@ -252,109 +246,7 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-25911878
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-12314792
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-G
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-38255953
-
-</td>
-
-<td style="text-align:left;">
-
-G
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-49510830
+26901240
 
 </td>
 
@@ -388,13 +280,7 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-20123726
-
-</td>
-
-<td style="text-align:left;">
-
-A
+14914116
 
 </td>
 
@@ -406,7 +292,13 @@ T
 
 <td style="text-align:left;">
 
-transversion2
+C
+
+</td>
+
+<td style="text-align:left;">
+
+transition
 
 </td>
 
@@ -422,7 +314,41 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-11288288
+39165234
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+transition
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+50645244
 
 </td>
 
@@ -434,7 +360,41 @@ G
 
 <td style="text-align:left;">
 
-A
+C
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+22225892
+
+</td>
+
+<td style="text-align:left;">
+
+N
+
+</td>
+
+<td style="text-align:left;">
+
+N
 
 </td>
 
@@ -456,7 +416,41 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-13582819
+10401489
+
+</td>
+
+<td style="text-align:left;">
+
+N
+
+</td>
+
+<td style="text-align:left;">
+
+N
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+16712504
 
 </td>
 
@@ -490,7 +484,13 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-974118
+727537
+
+</td>
+
+<td style="text-align:left;">
+
+A
 
 </td>
 
@@ -502,13 +502,7 @@ C
 
 <td style="text-align:left;">
 
-T
-
-</td>
-
-<td style="text-align:left;">
-
-transition
+transversion1
 
 </td>
 
@@ -524,19 +518,19 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-22836934
+23329662
 
 </td>
 
 <td style="text-align:left;">
 
-A
+T
 
 </td>
 
 <td style="text-align:left;">
 
-C
+G
 
 </td>
 

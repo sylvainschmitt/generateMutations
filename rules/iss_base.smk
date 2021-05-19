@@ -8,7 +8,7 @@ rule iss_base:
        expand("results/reference/{seq}_{chr}.fa", seq=[config["sequence"]],  chr=[config["chr"]]),
        expand("results/reference/{seq}_{chr}_snps.fa", seq=[config["sequence"]],  chr=[config["chr"]])
     output:
-        temp(expand("results/reads_N{N}_R{R}_AF{AF}_NR{NR}/base_R{strand}.fastq", strand=["1", "2"], allow_missing=True))
+        temp(expand("results/reads/base_N{N}_R{R}_AF{AF}_NR{NR}_R{strand}.fastq", strand=["1", "2"], allow_missing=True))
     log:
         "results/logs/iss_base_N{N}_R{R}_AF{AF}_NR{NR}.log"
     benchmark:
@@ -24,5 +24,5 @@ rule iss_base:
         "N=$(python -c \"print( round({params.NR}*(1-{params.AF})) )\") ; "
         "N=${{N%.*}} ;"
         "iss generate --genomes {input} --model hiseq --n_reads $N --cpus {threads} "
-        "--o results/reads_N{params.N}_R{params.R}_AF{params.AF}_NR{params.NR}/base ; "
-        "rm results/reads_N{params.N}_R{params.R}_AF{params.AF}_NR{params.NR}/base_abundance.txt"
+        "--o results/reads/base_N{params.N}_R{params.R}_AF{params.AF}_NR{params.NR} ; "
+        "rm results/reads/base_N{params.N}_R{params.R}_AF{params.AF}_NR{params.NR}_abundance.txt"

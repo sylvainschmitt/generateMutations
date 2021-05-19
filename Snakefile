@@ -8,11 +8,9 @@ rule all:
     input:
         expand("results/reference/{seq}_{chr}{ext}", seq=config["sequence"],  chr=config["chr"], 
                 ext=[".fa", "_snps.fa", "_snps.vcf", "_snps.map"]),
-        expand("results/mutation_N{N}_R{R}/{seq}_{chr}_mutated_N{N}_R{R}.{ext}", 
+        expand("results/mutations/{seq}_{chr}_mutated_N{N}_R{R}.{ext}", 
                 seq=config["sequence"], chr=config["chr"], ext=["tsv", "fa"], N=config["n_mut"], R=config["R"]),
-        # expand("results/reads_N{N}_R{R}_AF{AF}_NR{NR}/{type}_R{strand}.fastq", type=["base", "mutated"], strand=["1", "2"], 
-        #         N=config["n_mut"], R=config["R"], AF=config["AF"], NR=config["n_reads"])
-        expand("results/reads_N{N}_R{R}_AF{AF}_NR{NR}/N{N}_R{R}_AF{AF}_NR{NR}_R{strand}.fastq", 
+        expand("results/reads/N{N}_R{R}_AF{AF}_NR{NR}_R{strand}.fastq", 
                 N=config["n_mut"], R=config["R"], AF=config["AF"], NR=config["n_reads"], strand=["1","2"])
 
 # Rules

@@ -70,7 +70,7 @@ cd generateMutations
 
 ```{bash, eval=F, echo=T}
 cd data
-bash scripts/get_data.sh
+bash get_data.sh
 ```
 
 ## Locally
@@ -100,13 +100,6 @@ snakemake --report report.html # report
 # Workflow
 
 ## Reference
-
-### [cp_files](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/cp_files.smk)
-
-* Tools: `cp`
-* Parameters:
-    * Sequence: `r yaml::read_yaml("config/config.yml")$sequence`
-    
 
 ### [samtools_faidx](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/samtools_faidx.smk)
 
@@ -164,7 +157,7 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 # Results
 
 ```{r }
-read_tsv("results/mutation_N100_R2/Qrob_PM1N_Qrob_Chr01_mutated_N100_R2.tsv") %>% 
+read_tsv("results/mutations/Qrob_PM1N_Qrob_Chr01_mutated_N100_R2.tsv") %>% 
   select(CHROM, POS, REF, ALT, TYPE) %>% 
   arrange(CHROM, POS, REF, ALT) %>%
   sample_n(10) %>%  

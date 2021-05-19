@@ -1,6 +1,6 @@
 rule samtools_faidx:
     input:
-        expand("results/source/{seq}.fa", seq=[config["sequence"]])
+        expand("data/{seq}.fa", seq=[config["sequence"]])
     output:
         expand("results/reference/{seq}_{chr}.fa", seq=[config["sequence"]],  chr=[config["chr"]])
     log:

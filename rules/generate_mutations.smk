@@ -5,7 +5,7 @@ rule generate_mutations:
     input:
         expand("results/reference/{seq}_{chr}.fa", seq=[config["sequence"]],  chr=[config["chr"]])
     output:
-        expand("results/mutation_N{N}_R{R}/{seq}_{chr}_mutated_N{N}_R{R}.{ext}", 
+        expand("results/mutations/{seq}_{chr}_mutated_N{N}_R{R}.{ext}", 
                 seq=config["sequence"], chr=config["chr"], ext=["tsv", "fa"], allow_missing=True)
     log:
         "results/logs/generate_mutations_N{N}_R{R}.log"
