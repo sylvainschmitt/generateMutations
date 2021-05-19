@@ -4,26 +4,26 @@ __default__:
   cpus: 8
   time: "48:00:00"
 
-uncompress:
-  jobname: "uncompress"
+cp_files:
+  jobname: "cp_files"
   mem: "4G"
   cpus: 1
   time: "01:00:00"
   
-index:
-  jobname: "index"
+samtools_faidx:
+  jobname: "samtools_faidx"
   mem: "4G"
   cpus: 1
   time: "01:00:00"
   
-reference_bed:
-  jobname: "reference_bed"
+vcf2model:
+  jobname: "vcf2model"
   mem: "4G"
   cpus: 1
   time: "01:00:00"
-  
-sample_reference:
-  jobname: "sample_reference"
+
+simug:
+  jobname: "simug"
   mem: "4G"
   cpus: 1
   time: "01:00:00"
@@ -31,13 +31,19 @@ sample_reference:
 generate_mutations:
   jobname: "generate_mutations"
   mem: "4G"
-  cpus: 1 # R without parrallel, to be optimized 
-  time: "10:00:00"
+  cpus: 1
+  time: "01:00:00"
   
-generate_reads:
-  jobname: "generate_reads"
-  mem: "40G"
-  cpus: 10
+iss_base:
+  jobname: "iss_base"
+  mem: "4G"
+  cpus: 1
+  time: "01:00:00"
+  
+iss_mutated:
+  jobname: "iss_mutated"
+  mem: "4G"
+  cpus: 1
   time: "01:00:00"
   
 merge_reads:

@@ -17,5 +17,5 @@ n_mut: 100 # multivalues
 R: 2 # transition/transversion ratio # multivalues
 
 # Reads
-AF: 0.6 # allelic fraction # multivalues
+AF: [0.6, 0.8] # allelic fraction # multivalues
 n_reads: 50000 # 150X : 50Mbp ref/ 150bp reads * 150 cov # multivalues
