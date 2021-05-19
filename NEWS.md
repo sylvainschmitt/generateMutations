@@ -1,3 +1,8 @@
+# generateMutation 0.1.9014
+* fixed Chr names for snps and mutated
+* full working v2
+* AF and reads origin to be fixed
+
 # generateMutation 0.1.9013
 * new version to debug (numerous changes)
 * config: new names and list for parameters to explore

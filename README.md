@@ -136,16 +136,6 @@ snakemake --report report.html # report
 
 ## Reads
 
-**`iss` bug in cleaning\!**
-
-> ERROR:iss.util:Could not read temporary file:
-> results/reads\_N100\_R2\_AF0.6\_NR50000/base.iss.tmp.Qrob\_Chr01.0\_R1.fastq
-
-> ERROR:iss.util:You may have to remove temporary files manually
-
-**This is not a true error as we can clean it manually but it stop
-`snakemake` for he moment.**
-
 ### [iss\_base](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_base.smk)
 
   - Tools:
@@ -169,6 +159,398 @@ snakemake --report report.html # report
   - Tools: `cat`
 
 # Results
+
+<table>
+
+<caption>
+
+Generated mutations.
+
+</caption>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+Chromosome
+
+</th>
+
+<th style="text-align:right;">
+
+Position
+
+</th>
+
+<th style="text-align:left;">
+
+Reference
+
+</th>
+
+<th style="text-align:left;">
+
+Alternative
+
+</th>
+
+<th style="text-align:left;">
+
+Type
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+26686574
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+transversion1
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+25911878
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+transition
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+12314792
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+G
+
+</td>
+
+<td style="text-align:left;">
+
+transition
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+38255953
+
+</td>
+
+<td style="text-align:left;">
+
+G
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+transition
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+49510830
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+20123726
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+11288288
+
+</td>
+
+<td style="text-align:left;">
+
+G
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+transition
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+13582819
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+974118
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+transition
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+22836934
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+transversion1
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 <!-- ## Resources -->
 

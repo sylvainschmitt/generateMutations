@@ -5,8 +5,8 @@ NR=config["n_reads"]
 
 rule iss_mutated:
     input:
-        expand("results/mutation_N{N}_R{R}/{seq}_{chr}_mutated_N{N}_R{R}.fa", seq=config["sequence"], chr=config["chr"], allow_missing=True),
-        expand("results/reference/{seq}_{chr}_snps.fa", seq=[config["sequence"]],  chr=[config["chr"]])
+        expand("results/reference/{seq}_{chr}.fa", seq=[config["sequence"]],  chr=[config["chr"]]),
+        expand("results/mutation_N{N}_R{R}/{seq}_{chr}_mutated_N{N}_R{R}.fa", seq=config["sequence"], chr=config["chr"], allow_missing=True)
     output:
         temp(expand("results/reads_N{N}_R{R}_AF{AF}_NR{NR}/mutated_R{strand}.fastq", strand=["1", "2"], allow_missing=True))
     params:

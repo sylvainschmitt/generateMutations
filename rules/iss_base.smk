@@ -6,7 +6,7 @@ NR=config["n_reads"]
 rule iss_base:
     input:
        expand("results/reference/{seq}_{chr}.fa", seq=[config["sequence"]],  chr=[config["chr"]]),
-        expand("results/reference/{seq}_{chr}_snps.fa", seq=[config["sequence"]],  chr=[config["chr"]])
+       expand("results/reference/{seq}_{chr}_snps.fa", seq=[config["sequence"]],  chr=[config["chr"]])
     output:
         temp(expand("results/reads_N{N}_R{R}_AF{AF}_NR{NR}/base_R{strand}.fastq", strand=["1", "2"], allow_missing=True))
     log:

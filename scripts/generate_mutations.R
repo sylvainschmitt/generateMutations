@@ -7,7 +7,7 @@ R <- as.numeric(snakemake@wildcards[["R"]])
 mut_file <-  snakemake@output[[1]] 
 mut_ref <- snakemake@output[[2]]
 
-# # # manual
+# # manual
 # base_ref <- "results/reference/Qrob_PM1N_Qrob_Chr01.fa"
 # mutation_number <-  100
 # R <- 2
@@ -73,6 +73,7 @@ mutations_tmp <- group_by(mutations_tab, CHROM) %>%
   do(mutations = c(.$ALT))
 
 muted <- replaceAt(ref, mutations_range, mutations_tmp$mutations)
+names(muted) <- paste0(names(muted), "_mutated")
 
 if(!all(unlist(extractAt(ref, mutations_range)) == mutations_tab$REF))
   stop("Error with REF.")

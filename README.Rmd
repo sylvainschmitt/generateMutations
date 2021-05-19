@@ -141,14 +141,6 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 
 ## Reads
 
-**`iss` bug in cleaning!**
-
-> ERROR:iss.util:Could not read temporary file: results/reads_N100_R2_AF0.6_NR50000/base.iss.tmp.Qrob_Chr01.0_R1.fastq
-
-> ERROR:iss.util:You may have to remove temporary files manually
-
-**This is not a true error as we can clean it manually but it stop `snakemake` for he moment.**
-
 ### [iss_base](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_base.smk)
 
 * Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
@@ -171,10 +163,11 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 
 # Results
 
-```{r, eval=F}
-read_tsv("results/mutated_reference/mutation.tsv") %>% 
+```{r }
+read_tsv("results/mutation_N100_R2/Qrob_PM1N_Qrob_Chr01_mutated_N100_R2.tsv") %>% 
   select(CHROM, POS, REF, ALT, TYPE) %>% 
   arrange(CHROM, POS, REF, ALT) %>%
+  sample_n(10) %>%  
   kable(col.names = c("Chromosome", "Position", "Reference", "Alternative", "Type"),
         caption = "Generated mutations.")
 ```
