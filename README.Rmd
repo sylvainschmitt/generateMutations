@@ -153,6 +153,14 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
     * Allele frequency: `r yaml::read_yaml("config/config.dag.yml")$AF`
     * Number of reads: `r yaml::read_yaml("config/config.dag.yml")$n_reads`
 
+### [iss_unmutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_unmutated.smk)
+
+* Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
+* Singularity:  docker://hadrieng/insilicoseq:latest
+* Parameters:
+    * Allele frequency: `r yaml::read_yaml("config/config.dag.yml")$AF`
+    * Number of reads: `r yaml::read_yaml("config/config.dag.yml")$n_reads`
+
 ### [merge_reads](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/merge_reads.smk)
 
 * Tools: `cat`

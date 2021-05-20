@@ -6,9 +6,9 @@ NR=config["n_reads"]
 rule merge_reads:
     input:
         expand("results/reads/{type}_N{N}_R{R}_AF{AF}_NR{NR}_R{strand}.fastq", 
-                type=["base", "mutated"], strand=["1","2"], allow_missing=True)
+                type=["unmutated", "mutatedtmp"], strand=["1","2"], allow_missing=True)
     output:
-        expand("results/reads/N{N}_R{R}_AF{AF}_NR{NR}_R{strand}.fastq",
+        expand("results/reads/N{N}_R{R}_AF{AF}_NR{NR}_mutated_R{strand}.fastq",
                 strand=["1","2"], allow_missing=True)
     log:
         "results/logs/merge_reads_N{N}_R{R}_AF{AF}_NR{NR}.log"

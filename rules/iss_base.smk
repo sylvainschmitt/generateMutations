@@ -8,21 +8,19 @@ rule iss_base:
        expand("results/reference/{seq}_{chr}.fa", seq=[config["sequence"]],  chr=[config["chr"]]),
        expand("results/reference/{seq}_{chr}_snps.fa", seq=[config["sequence"]],  chr=[config["chr"]])
     output:
-        temp(expand("results/reads/base_N{N}_R{R}_AF{AF}_NR{NR}_R{strand}.fastq", strand=["1", "2"], allow_missing=True))
+       expand("results/reads/N{N}_R{R}_AF{AF}_NR{NR}_base_R{strand}.fastq", strand=["1", "2"], allow_missing=True)
     log:
-        "results/logs/iss_base_N{N}_R{R}_AF{AF}_NR{NR}.log"
+       "results/logs/iss_base_N{N}_R{R}_AF{AF}_NR{NR}.log"
     benchmark:
-        "results/benchmarks/iss_base_N{N}_R{R}_AF{AF}_NR{NR}.benchmark.txt"
+       "results/benchmarks/iss_base_N{N}_R{R}_AF{AF}_NR{NR}.benchmark.txt"
     params:
-        N = "{N}",
-        R = "{R}",
-        AF = "{AF}",
-        NR = "{NR}"
+       N = "{N}",
+       R = "{R}",
+       AF = "{AF}",
+       NR = "{NR}"
     singularity: 
-        "docker://hadrieng/insilicoseq:latest"
+       "docker://hadrieng/insilicoseq:latest"
     shell:
-        "N=$(python -c \"print( round({params.NR}*(1-{params.AF})) )\") ; "
-        "N=${{N%.*}} ;"
-        "iss generate --genomes {input} --model hiseq --n_reads $N --cpus {threads} "
-        "--o results/reads/base_N{params.N}_R{params.R}_AF{params.AF}_NR{params.NR} ; "
-        "rm results/reads/base_N{params.N}_R{params.R}_AF{params.AF}_NR{params.NR}_abundance.txt"
+       "iss generate --genomes {input} --model hiseq --n_reads {params.NR} --cpus {threads} "
+       "--o results/reads/N{params.N}_R{params.R}_AF{params.AF}_NR{params.NR}_base ; "
+       "rm results/reads/N{params.N}_R{params.R}_AF{params.AF}_NR{params.NR}_base_abundance.txt"

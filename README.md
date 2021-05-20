@@ -148,6 +148,15 @@ snakemake --report report.html # report
       - Allele frequency: 0.6
       - Number of reads: 7000
 
+### [iss\_unmutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_unmutated.smk)
+
+  - Tools:
+    [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
+  - Singularity: docker://hadrieng/insilicoseq:latest
+  - Parameters:
+      - Allele frequency: 0.6
+      - Number of reads: 7000
+
 ### [merge\_reads](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/merge_reads.smk)
 
   - Tools: `cat`
@@ -212,7 +221,7 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-3412
+3779
 
 </td>
 
@@ -246,41 +255,7 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-3330
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-transversion1
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-1906
+3586
 
 </td>
 
@@ -292,7 +267,75 @@ T
 
 <td style="text-align:left;">
 
-G
+A
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+1984
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+5291
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+C
 
 </td>
 
@@ -314,7 +357,7 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-4966
+6372
 
 </td>
 
@@ -348,7 +391,7 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-6057
+2834
 
 </td>
 
@@ -382,41 +425,7 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-2753
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-1797
+1543
 
 </td>
 
@@ -450,13 +459,13 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-1955
+2054
 
 </td>
 
 <td style="text-align:left;">
 
-A
+T
 
 </td>
 
@@ -468,7 +477,7 @@ C
 
 <td style="text-align:left;">
 
-transversion1
+transition
 
 </td>
 
@@ -484,41 +493,7 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-234
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-G
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-2944
+407
 
 </td>
 
@@ -537,6 +512,40 @@ G
 <td style="text-align:left;">
 
 transversion1
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+3282
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+transition
 
 </td>
 
