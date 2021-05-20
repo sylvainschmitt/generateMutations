@@ -1,3 +1,6 @@
+# generateMutation 0.1.9019
+* scaling config and ressources
+
 # generateMutation 0.1.9018
 * simplified folders for connection with detectMutations
 
