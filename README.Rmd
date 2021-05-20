@@ -22,7 +22,11 @@ opts_chunk$set(echo = F, message = F, warning = F, fig.height = 6, fig.width = 8
 
 [`singularity` & `snakemake`](https://github.com/sylvainschmitt/snakemake_singularity) workflow to generate *in silico* mutations.
 
-```{r dag}
+```{r dagminimal}
+knitr::include_graphics("dag/dag.minimal.svg")
+```
+
+```{r dag, eval=F}
 knitr::include_graphics("dag/dag.svg")
 ```
 
@@ -96,7 +100,6 @@ module purge ; module load bioinfo/snakemake-5.25.0 ; module load system/Python-
 snakemake --report report.html # report
 ```
 
-
 # Workflow
 
 ## Reference
@@ -106,7 +109,7 @@ snakemake --report report.html # report
 * Tools: [`samtools faidx`](http://www.htslib.org/doc/samtools-faidx.html)
 * Singularity: oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest
 * Parameters:
-    * Chromosome: `r yaml::read_yaml("config/config.yml")$chr`
+    * Chromosome: `r yaml::read_yaml("config/config.dag.yml")$chr`
     
 ### [vcf2model](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/vcf2model.smk)
 
@@ -125,8 +128,8 @@ snakemake --report report.html # report
 * Script: [`generate_mutations.R`](https://bedtools.readthedocs.io/en/latest/content/scripts/generate_mutations.R)
 * Singularity:"https://github.com/sylvainschmitt/singularity-template/releases/download/0.0.1/sylvainschmitt-singularity-tidyverse-Biostrings.latest.sif"
 * Parameters:
-    * Number: `r yaml::read_yaml("config/config.yml")$n_mut`
-    * Transition/Transversion ratio R (see below): `r yaml::read_yaml("config/config.yml")$R`
+    * Number: `r yaml::read_yaml("config/config.dag.yml")$n_mut`
+    * Transition/Transversion ratio R (see below): `r yaml::read_yaml("config/config.dag.yml")$R`
 
 ```{r R}
 include_graphics("https://dridk.me/images/post17/transition_transversion.png")
@@ -139,16 +142,16 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 * Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
 * Singularity:  docker://hadrieng/insilicoseq:latest
 * Parameters:
-    * Allele frequency: `r yaml::read_yaml("config/config.yml")$AF`
-    * Number of reads: `r yaml::read_yaml("config/config.yml")$n_reads`
+    * Allele frequency: `r yaml::read_yaml("config/config.dag.yml")$AF`
+    * Number of reads: `r yaml::read_yaml("config/config.dag.yml")$n_reads`
 
 ### [iss_mutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_mutated.smk)
 
 * Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
 * Singularity:  docker://hadrieng/insilicoseq:latest
 * Parameters:
-    * Allele frequency: `r yaml::read_yaml("config/config.yml")$AF`
-    * Number of reads: `r yaml::read_yaml("config/config.yml")$n_reads`
+    * Allele frequency: `r yaml::read_yaml("config/config.dag.yml")$AF`
+    * Number of reads: `r yaml::read_yaml("config/config.dag.yml")$n_reads`
 
 ### [merge_reads](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/merge_reads.smk)
 
@@ -157,7 +160,7 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 # Results
 
 ```{r }
-read_tsv("results/mutations/Qrob_PM1N_Qrob_Chr01_mutated_N100_R2.tsv") %>% 
+read_tsv(list.files("results/mutations/", pattern = ".tsv", full.names = T)[1]) %>% 
   select(CHROM, POS, REF, ALT, TYPE) %>% 
   arrange(CHROM, POS, REF, ALT) %>%
   sample_n(10) %>%  

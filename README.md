@@ -18,7 +18,7 @@ April 20, 2021
 `snakemake`](https://github.com/sylvainschmitt/snakemake_singularity)
 workflow to generate *in silico* mutations.
 
-![](dag/dag.svg)<!-- -->
+![](dag/dag.minimal.svg)<!-- -->
 
 # Installation
 
@@ -123,8 +123,8 @@ snakemake --report report.html # report
     [`generate_mutations.R`](https://bedtools.readthedocs.io/en/latest/content/scripts/generate_mutations.R)
   - Singularity:“<https://github.com/sylvainschmitt/singularity-template/releases/download/0.0.1/sylvainschmitt-singularity-tidyverse-Biostrings.latest.sif>”
   - Parameters:
-      - Number: 100, 1000
-      - Transition/Transversion ratio R (see below): 2, 3
+      - Number: 100
+      - Transition/Transversion ratio R (see below): 2
 
 ![](https://dridk.me/images/post17/transition_transversion.png)<!-- -->
 
@@ -136,8 +136,8 @@ snakemake --report report.html # report
     [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
   - Singularity: docker://hadrieng/insilicoseq:latest
   - Parameters:
-      - Allele frequency: 0.6, 0.8
-      - Number of reads: 33333, 50000
+      - Allele frequency: 0.6
+      - Number of reads: 7000
 
 ### [iss\_mutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_mutated.smk)
 
@@ -145,8 +145,8 @@ snakemake --report report.html # report
     [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
   - Singularity: docker://hadrieng/insilicoseq:latest
   - Parameters:
-      - Allele frequency: 0.6, 0.8
-      - Number of reads: 33333, 50000
+      - Allele frequency: 0.6
+      - Number of reads: 7000
 
 ### [merge\_reads](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/merge_reads.smk)
 
@@ -212,7 +212,41 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-27661823
+3412
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+3330
 
 </td>
 
@@ -246,109 +280,13 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-26901240
-
-</td>
-
-<td style="text-align:left;">
-
-A
+1906
 
 </td>
 
 <td style="text-align:left;">
 
 T
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-14914116
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-39165234
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-50645244
 
 </td>
 
@@ -360,13 +298,7 @@ G
 
 <td style="text-align:left;">
 
-C
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
+transversion1
 
 </td>
 
@@ -382,19 +314,53 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-22225892
+4966
 
 </td>
 
 <td style="text-align:left;">
 
-N
+C
 
 </td>
 
 <td style="text-align:left;">
 
-N
+A
+
+</td>
+
+<td style="text-align:left;">
+
+transversion1
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+6057
+
+</td>
+
+<td style="text-align:left;">
+
+A
+
+</td>
+
+<td style="text-align:left;">
+
+G
 
 </td>
 
@@ -416,41 +382,7 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-10401489
-
-</td>
-
-<td style="text-align:left;">
-
-N
-
-</td>
-
-<td style="text-align:left;">
-
-N
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-16712504
+2753
 
 </td>
 
@@ -484,7 +416,41 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-727537
+1797
+
+</td>
+
+<td style="text-align:left;">
+
+T
+
+</td>
+
+<td style="text-align:left;">
+
+G
+
+</td>
+
+<td style="text-align:left;">
+
+transversion1
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+1955
 
 </td>
 
@@ -518,7 +484,41 @@ Qrob\_Chr01
 
 <td style="text-align:right;">
 
-23329662
+234
+
+</td>
+
+<td style="text-align:left;">
+
+C
+
+</td>
+
+<td style="text-align:left;">
+
+G
+
+</td>
+
+<td style="text-align:left;">
+
+transversion2
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Qrob\_Chr01
+
+</td>
+
+<td style="text-align:right;">
+
+2944
 
 </td>
 
