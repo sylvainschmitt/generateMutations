@@ -1,3 +1,6 @@
+# generateMutation 0.1.9020
+* config.dev
+
 # generateMutation 0.1.9019
 * scaling config and ressources
 

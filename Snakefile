@@ -1,7 +1,7 @@
 ## Sylvain SCHMITT
 ## 20/04/2021
 
-configfile: "config/config.dag.yml"
+configfile: "config/config.dev.yml"
 
 rule all:
     input:

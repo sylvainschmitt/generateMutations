@@ -5,12 +5,12 @@
 ressources: "ressources.local.yaml"
 
 # Sources
-sequence: "Qrob_PM1N"
+sequence: "Qrob_PM1N_7k"
 genes: "Qrob_PM1N_genes_20161004.gff.gz"
 TE: "Qrob_PM1N_refTEs.gff.gz"
 hz: "siteshz3P.vcf"
 chr: "Qrob_Chr01"
-n_snps: 550 # pi = 0.01 , L = 55 Mb , N = pi*L = 550 
+n_snps: 70 # pi = 0.01 , L = 7 kb , N = pi*L = 70 
 
 # Mutations
 n_mut: 100 # multivalues
@@ -18,4 +18,4 @@ R: 2 # transition/transversion ratio # multivalues
 
 # Reads
 AF: [0.6, 0.8] # allelic fraction # multivalues
-n_reads: 50000000 # 150X : 50Mbp ref/ 150bp reads * 150 cov # multivalues
+n_reads: 7000 # 150X : 7kb ref/ 150bp reads * 150 cov # multivalues
