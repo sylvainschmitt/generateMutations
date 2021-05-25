@@ -1,3 +1,6 @@
+# generateMutation 0.1.9023
+* config experiment genologin
+
 # generateMutation 0.1.9022
 * mutated and base reads
 
