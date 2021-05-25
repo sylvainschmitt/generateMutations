@@ -36,14 +36,20 @@ generate_mutations:
   
 iss_base:
   jobname: "iss_base"
-  mem: "16G"
-  cpus: 4
+  mem: "32G"
+  cpus: 8
   time: "01:00:00"
   
 iss_mutated:
   jobname: "iss_mutated"
-  mem: "16G"
-  cpus: 4
+  mem: "32G"
+  cpus: 8
+  time: "01:00:00"
+  
+iss_unmutated:
+  jobname: "iss_unmutated"
+  mem: "32G"
+  cpus: 8
   time: "01:00:00"
   
 merge_reads:

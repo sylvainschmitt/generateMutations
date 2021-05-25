@@ -1,3 +1,6 @@
+# generateMutation 0.1.9024
+* config experiment fixed coverage & boosted resources
+
 # generateMutation 0.1.9023
 * config experiment genologin
 
