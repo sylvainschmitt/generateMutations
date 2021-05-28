@@ -5,12 +5,12 @@
 ressources: "ressources.genologin.yaml"
 
 # Sources
-sequence: "Qrob_PM1N"
+sequence: "Qrob_PM1N_1M"
 genes: "Qrob_PM1N_genes_20161004.gff.gz"
 TE: "Qrob_PM1N_refTEs.gff.gz"
 hz: "siteshz3P.vcf"
 chr: "Qrob_Chr01"
-n_snps: 550 # pi = 0.01 , L = 55 Mb , N = pi*L = 550 
+n_snps: 10000 # pi = 0.01 , L = 1 Mb , N = pi*L = 10^4
 
 # Mutations
 n_mut: 1000
@@ -18,5 +18,5 @@ R: [2, 2.5, 3] # transition/transversion ratio # multivalues
 
 # Reads
 AF: [0.05, 0.1, 0.25, 0.5] # allelic fraction # multivalues
-n_reads: [18333333, 36666667, 55000000, 73333333] # [50, 100, 150, 200]X : 7kb ref/ 150bp reads * cov # multivalues
+n_reads: [333333, 666667, 1000000, 1333333] # [50, 100, 150, 200]X : 1Mb ref/ 150bp reads * cov # multivalues
 # paste(round(55*10^6/150*c(50, 100, 150, 200)), collapse = ", ")

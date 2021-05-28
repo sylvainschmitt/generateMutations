@@ -4,6 +4,7 @@ wget https://urgi.versailles.inra.fr/download/oak/Qrob_PM1N.fa.gz
 zcat Qrob_PM1N.fa.gz > Qrob_PM1N.fa
 rm Qrob_PM1N.fa.gz
 head -n 119 Qrob_PM1N.fa > Qrob_PM1N_7k.fa
+head -n 16668 Qrob_PM1N.fa > Qrob_PM1N_1M.fa
 # wget https://urgi.versailles.inra.fr/download/oak/Qrob_V2_2N.fa.gz
 wget https://urgi.versailles.inra.fr/download/oak/Qrob_PM1N_refTEs.gff.gz
 wget https://urgi.versailles.inra.fr/download/oak/Qrob_PM1N_genes_20161004.gff.gz

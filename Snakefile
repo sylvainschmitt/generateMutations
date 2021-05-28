@@ -1,7 +1,7 @@
 ## Sylvain SCHMITT
 ## 20/04/2021
 
-configfile: "config/config.dev.yml"
+configfile: "config/config.experiment.yml"
 
 rule all:
     input:

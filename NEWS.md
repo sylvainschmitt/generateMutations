@@ -1,3 +1,6 @@
+# generateMutation 0.1.9025
+* 1Mb experiment
+
 # generateMutation 0.1.9024
 * config experiment fixed coverage & boosted resources
 
