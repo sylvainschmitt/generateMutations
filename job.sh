@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=10:00:00
+#SBATCH --time=96:00:00
 #SBATCH -J genMut
 #SBATCH -o genMut.%N.%j.out
 #SBATCH -e genMut.%N.%j.err

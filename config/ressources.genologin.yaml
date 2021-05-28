@@ -38,23 +38,23 @@ iss_base:
   jobname: "iss_base"
   mem: "32G"
   cpus: 8
-  time: "01:00:00"
+  time: "48:00:00"
   
 iss_mutated:
   jobname: "iss_mutated"
   mem: "32G"
   cpus: 8
-  time: "01:00:00"
+  time: "48:00:00"
   
 iss_unmutated:
   jobname: "iss_unmutated"
   mem: "32G"
   cpus: 8
-  time: "01:00:00"
+  time: "48:00:00"
   
 merge_reads:
   jobname: "merge_reads"
   mem: "4G"
   cpus: 1
-  time: "01:00:00"
+  time: "10:00:00"
   
