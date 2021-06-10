@@ -11,7 +11,7 @@
 # Environment
 module purge
 module load bioinfo/snakemake-5.25.0
-module load system/singularity-3.6.4
+module load system/singularity-3.7.3
 
 # Variables
 CONFIG=config/ressources.genologin.yaml
@@ -20,7 +20,7 @@ CORES=100
 mkdir -p snake_subjob_log
 
 # Workflow
-snakemake -s Snakefile --use-singularity -j $CORES --cluster-config $CONFIG --cluster "$COMMAND"
+snakemake -s Snakefile --use-singularity -j $CORES --cluster-config $CONFIG --cluster "$COMMAND" --keep-going
 
 ## Session informations
 echo '########################################'

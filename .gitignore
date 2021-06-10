@@ -18,3 +18,4 @@ dag/dag.svg
 *.gff.gz
 *.fa
 *.vcf
+*.fa.fai
