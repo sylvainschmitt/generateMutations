@@ -14,7 +14,7 @@ n_snps: 10000 # pi = 0.01 , L = 1 Mb , N = pi*L = 10^4
 
 # Mutations
 n_mut: 1000
-R: [2, 2.5, 3] # transition/transversion ratio # multivalues
+R: 2 # transition/transversion ratio # multivalues
 
 # Reads
 AF: [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40, 0.45, 0.5] # allelic fraction # multivalues
