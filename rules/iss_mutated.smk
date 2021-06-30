@@ -19,6 +19,9 @@ rule iss_mutated:
         "results/benchmarks/iss_mutateds_N{N}_R{R}_AF{AF}_NR{NR}.benchmark.txt"
     singularity: 
         "docker://hadrieng/insilicoseq:latest"
+    threads: 8
+    resources:
+        mem_mb=32000
     shell:
         "N=$(python -c \"print( round({params.NR}*{params.AF}) )\") ; "
         "N=${{N%.*}} ;"

@@ -14,7 +14,6 @@ rule all:
 
 # Rules
 
-include: "rules/cp_files.smk"
 include: "rules/samtools_faidx.smk"
 include: "rules/vcf2model.smk"
 include: "rules/simug.smk"

@@ -17,6 +17,6 @@ n_mut: 1000
 R: [2, 2.5, 3] # transition/transversion ratio # multivalues
 
 # Reads
-AF: [0.05, 0.1, 0.25, 0.5] # allelic fraction # multivalues
-n_reads: [166667, 333333, 666667, 1000000, 1333333] # [50, 100, 150, 200]X : 1Mb ref/ 150bp reads * cov # multivalues
-# paste(round(10^6/150*c(25, 50, 100, 150, 200)), collapse = ", ")
+AF: [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40, 0.45, 0.5] # allelic fraction # multivalues
+n_reads: [166667, 333333, 500000, 666667, 833333, 1000000, 1166667, 1333333] # [25, 50, 75, 100, 125, 150, 175, 200]X : 1Mb ref/ 150bp reads * cov # multivalues
+# paste(round(10^6/150*c(25, 50, 75, 100, 125, 150, 175, 200)), collapse = ", ")

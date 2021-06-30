@@ -1,3 +1,8 @@
+# generateMutation 0.2.0.9026
+* correct versioning
+* correct threading and memory
+* new 1Mb experiment
+
 # generateMutation 0.1.9025
 * 1Mb experiment
 

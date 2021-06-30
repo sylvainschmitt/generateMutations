@@ -20,6 +20,9 @@ rule iss_unmutated:
         NR = "{NR}"
     singularity: 
         "docker://hadrieng/insilicoseq:latest"
+    threads: 8
+    resources:
+        mem_mb=32000
     shell:
         "N=$(python -c \"print( round({params.NR}*(1-{params.AF})) )\") ; "
         "N=${{N%.*}} ;"

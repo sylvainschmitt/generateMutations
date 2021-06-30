@@ -20,6 +20,9 @@ rule iss_base:
        NR = "{NR}"
     singularity: 
        "docker://hadrieng/insilicoseq:latest"
+    threads: 8
+    resources:
+        mem_mb=32000
     shell:
        "iss generate --genomes {input} --model hiseq --n_reads {params.NR} --cpus {threads} "
        "--o results/reads/N{params.N}_R{params.R}_AF{params.AF}_NR{params.NR}_base ; "

@@ -4,12 +4,8 @@ __default__:
   cpus: 8
   time: "48:00:00"
 
-cp_files:
-  jobname: "cp_files"
-  mem: "4G"
-  cpus: 1
-  time: "01:00:00"
-  
+## Reference ## 
+
 samtools_faidx:
   jobname: "samtools_faidx"
   mem: "4G"
@@ -28,11 +24,15 @@ simug:
   cpus: 1
   time: "01:00:00"
   
+## Reference ## 
+  
 generate_mutations:
   jobname: "generate_mutations"
   mem: "4G"
   cpus: 1
   time: "01:00:00"
+  
+## Reads ## 
   
 iss_base:
   jobname: "iss_base"
