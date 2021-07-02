@@ -1,3 +1,6 @@
+# generateMutation 0.2.0.9027
+* adding repetitions (10)
+
 # generateMutation 0.2.0.9026
 * correct versioning
 * correct threading and memory
