@@ -1,18 +1,19 @@
-generate Mutations
+generate Mutations - Angela
 ================
 Sylvain Schmitt
-April 20, 2021
+Jully 16, 2021
 
   - [Installation](#installation)
   - [Usage](#usage)
       - [Get data](#get-data)
       - [Locally](#locally)
       - [HPC](#hpc)
+  - [Design](#design)
   - [Workflow](#workflow)
       - [Reference](#reference)
       - [Mutations](#mutations)
       - [Reads](#reads)
-  - [Results](#results)
+  - [ToDo](#todo)
 
 [`singularity` &
 `snakemake`](https://github.com/sylvainschmitt/snakemake_singularity)
@@ -72,11 +73,9 @@ bash get_data.sh
 ## Locally
 
 ``` bash
-snakemake -np # dry run
+snakemake -np -j 3 --resources mem_mb=10000 # dry run
 snakemake --dag | dot -Tsvg > dag/dag.svg # dag
-snakemake --use-singularity --cores 4 # run
-snakemake --use-singularity --cores 1 --verbose # debug
-snakemake --report report.html # report
+snakemake --use-singularity -j 3 --resources mem_mb=10000 # run
 ```
 
 ## HPC
@@ -91,6 +90,10 @@ snakemake --dag | dot -Tsvg > dag/dag.svg # dag
 module purge ; module load bioinfo/snakemake-5.25.0 ; module load system/Python-3.6.3 # for report
 snakemake --report report.html # report
 ```
+
+# Design
+
+<img src="dag/sampling.png" width="636" />
 
 # Workflow
 
@@ -123,10 +126,8 @@ snakemake --report report.html # report
     [`generate_mutations.R`](https://bedtools.readthedocs.io/en/latest/content/scripts/generate_mutations.R)
   - Singularity:“<https://github.com/sylvainschmitt/singularity-template/releases/download/0.0.1/sylvainschmitt-singularity-tidyverse-Biostrings.latest.sif>”
   - Parameters:
-      - Number: 100
+      - Number: 10
       - Transition/Transversion ratio R (see below): 2
-
-![](https://dridk.me/images/post17/transition_transversion.png)<!-- -->
 
 ## Reads
 
@@ -136,8 +137,8 @@ snakemake --report report.html # report
     [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
   - Singularity: docker://hadrieng/insilicoseq:latest
   - Parameters:
-      - Allele frequency: 0.6
-      - Number of reads: 7000
+      - Allele frequency: 0.3
+      - Number of reads: 9333
 
 ### [iss\_mutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_mutated.smk)
 
@@ -145,8 +146,8 @@ snakemake --report report.html # report
     [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
   - Singularity: docker://hadrieng/insilicoseq:latest
   - Parameters:
-      - Allele frequency: 0.6
-      - Number of reads: 7000
+      - Allele frequency: 0.3
+      - Number of reads: 9333
 
 ### [iss\_unmutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_unmutated.smk)
 
@@ -154,431 +155,15 @@ snakemake --report report.html # report
     [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
   - Singularity: docker://hadrieng/insilicoseq:latest
   - Parameters:
-      - Allele frequency: 0.6
-      - Number of reads: 7000
+      - Allele frequency: 0.3
+      - Number of reads: 9333
 
 ### [merge\_reads](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/merge_reads.smk)
 
   - Tools: `cat`
 
-# Results
-
-<table>
-
-<caption>
-
-Generated mutations.
-
-</caption>
-
-<thead>
-
-<tr>
-
-<th style="text-align:left;">
-
-Chromosome
-
-</th>
-
-<th style="text-align:right;">
-
-Position
-
-</th>
-
-<th style="text-align:left;">
-
-Reference
-
-</th>
-
-<th style="text-align:left;">
-
-Alternative
-
-</th>
-
-<th style="text-align:left;">
-
-Type
-
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-3779
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-3586
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-1984
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-transversion2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-5291
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-transversion1
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-6372
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-transversion1
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-2834
-
-</td>
-
-<td style="text-align:left;">
-
-A
-
-</td>
-
-<td style="text-align:left;">
-
-G
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-1543
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-G
-
-</td>
-
-<td style="text-align:left;">
-
-transversion1
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-2054
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-407
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-G
-
-</td>
-
-<td style="text-align:left;">
-
-transversion1
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Qrob\_Chr01
-
-</td>
-
-<td style="text-align:right;">
-
-3282
-
-</td>
-
-<td style="text-align:left;">
-
-T
-
-</td>
-
-<td style="text-align:left;">
-
-C
-
-</td>
-
-<td style="text-align:left;">
-
-transition
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-<!-- ## Resources -->
-
-<!-- * [TreeMutation pages](https://treemutation.netlify.app/mutations-detection.html#in-silico-mutations) -->
-
-<!-- * [genologin skanemake template](https://forgemia.inra.fr/bios4biol/workflows/-/tree/06c6a5cb3206a594f9a535ba8d3df3e64682a8bc/Snakemake/template_dev) -->
-
-<!-- * [Oak genome A4 snakemake](https://forgemia.inra.fr/genome_a4/genome_a4) -->
-
-<!-- * [singularity images from forgemia](https://forgemia.inra.fr/gafl/singularity) -->
-
-<!-- * [biocontainers](https://biocontainers.pro/tools/bioconductor-biostrings) -->
-
-<!-- * https://forgemia.inra.fr/adminforgemia/doc-public/-/wikis/Gitlab-Container-Registry -->
-
-<!-- * https://souchal.pages.in2p3.fr/hugo-perso/2019/09/20/tutorial-singularity-and-docker/ -->
-
-<!-- * https://github.com/ShixiangWang/sigminer -->
-
-<!-- * https://github.com/ShixiangWang/sigflow -->
-
-<!-- * https://github.com/FunGeST/Palimpsest -->
-
-<!-- * https://github.com/IARCbioinfo/needlestack -->
-
-<!-- * https://github.com/luntergroup/octopus -->
-
-<!-- * https://github.com/G3viz/g3viz -->
+# ToDo
+
+  - [ ] varying AF
+  - [ ] defined genetic distance between samples based on an
+    architecture
