@@ -1,8 +1,8 @@
 # input
 base_ref <- snakemake@input[[1]]
 # wildcards
-mutation_number <-  as.numeric(snakemake@wildcards[["N"]])
-R <- as.numeric(snakemake@wildcards[["R"]])
+mutation_number <-  as.numeric(snakemake@config[["n_mut"]])
+R <- as.numeric(snakemake@config[["R"]])
 # output
 mut_file <-  snakemake@output[[1]] 
 mut_ref <- snakemake@output[[2]]

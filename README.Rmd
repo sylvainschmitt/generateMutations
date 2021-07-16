@@ -26,6 +26,12 @@ opts_chunk$set(echo = F, message = F, warning = F, fig.height = 6, fig.width = 8
 knitr::include_graphics("dag/dag.minimal.svg")
 ```
 
+# Sampling scheme
+
+```{r sampling}
+knitr::include_graphics("dag/sampling.png")
+```
+
 # Installation
 
 - [x] Python ≥3.5
@@ -90,22 +96,13 @@ sbatch job.sh # run
 snakemake --dag | dot -Tsvg > dag/dag.svg # dag
 ```
 
-# Sampling scheme
-
-```{r sampling}
-knitr::include_graphics("dag/sampling.png")
-```
-
 # Workflow
 
 ## Reference
 
-### [samtools_faidx](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/samtools_faidx.smk)
+### [cp_ref](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/cp_ref.smk)
 
-* Tools: [`samtools faidx`](http://www.htslib.org/doc/samtools-faidx.html)
-* Singularity: oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest
-* Parameters:
-    * Chromosome: `r yaml::read_yaml("config/config.dag.yml")$chr`
+* Tools: `cp`
     
 ### [vcf2model](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/vcf2model.smk)
 

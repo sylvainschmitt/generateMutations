@@ -3,12 +3,12 @@ generate Mutations - Angela
 Sylvain Schmitt
 Jully 16, 2021
 
+  - [Sampling scheme](#sampling-scheme)
   - [Installation](#installation)
   - [Usage](#usage)
       - [Get data](#get-data)
       - [Locally](#locally)
       - [HPC](#hpc)
-  - [Design](#design)
   - [Workflow](#workflow)
       - [Reference](#reference)
       - [Mutations](#mutations)
@@ -17,9 +17,14 @@ Jully 16, 2021
 
 [`singularity` &
 `snakemake`](https://github.com/sylvainschmitt/snakemake_singularity)
-workflow to generate *in silico* mutations.
+workflow to generate *in silico* mutations corresponding to Angela
+sampling scheme.
 
 ![](dag/dag.minimal.svg)<!-- -->
+
+# Sampling scheme
+
+<img src="dag/sampling.png" width="636" />
 
 # Installation
 
@@ -81,19 +86,11 @@ snakemake --use-singularity -j 3 --resources mem_mb=10000 # run
 ## HPC
 
 ``` bash
-module purge ; module load bioinfo/snakemake-5.25.0 # for test on node
+module load bioinfo/snakemake-5.25.0 # for test on node
 snakemake -np # dry run
-sbatch job.sh ; watch 'squeue -u sschmitt' # run
-less genMut.*.err # snakemake outputs, use MAJ+F
-less genMut.*.out # snakemake outputs, use MAJ+F
+sbatch job.sh # run
 snakemake --dag | dot -Tsvg > dag/dag.svg # dag
-module purge ; module load bioinfo/snakemake-5.25.0 ; module load system/Python-3.6.3 # for report
-snakemake --report report.html # report
 ```
-
-# Design
-
-<img src="dag/sampling.png" width="636" />
 
 # Workflow
 

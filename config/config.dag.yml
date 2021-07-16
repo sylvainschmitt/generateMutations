@@ -7,14 +7,16 @@ ressources: "ressources.genologin.yaml"
 # Sources
 sequence: "Qrob_PM1N_7k"
 hz: "siteshz3P.vcf"
-chr: "Qrob_Chr01"
 n_snps: 70 # pi = 0.01 , L = 7 kb , N = pi*L = 70 
 
 # Mutations
-n_mut: 10 # multivalues
+n_mut: 5 # multivalues
 R: 2 # transition/transversion ratio # multivalues
 
 # Reads
 AF: 0.3 # allelic fraction # multivalues
 n_reads: 9333 # 200X : 7kbp ref/ 150bp reads * 150 cov # multivalues
 REP: 1
+
+# Sampling
+branches: [1]
