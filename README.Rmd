@@ -98,63 +98,64 @@ snakemake --dag | dot -Tsvg > dag/dag.svg # dag
 
 # Workflow
 
-## Reference
+## Cambiums
 
-### [cp_ref](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/cp_ref.smk)
+### [cp_ref](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/cp_ref.smk)
 
 * Tools: `cp`
+* Parameters:
+    * sequence: `r yaml::read_yaml("config/config.dag.yml")$sequence`
     
-### [vcf2model](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/vcf2model.smk)
+### [vcf2model](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/vcf2model.smk)
 
 * Tools: [`simuG`](https://github.com/yjx1217/simuG)
 * Script: `vcf2model.pl`
+* Parameters:
+    * hz: `r yaml::read_yaml("config/config.dag.yml")$hz`
 
-### [simug](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/simug.smk)
+### [simug](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/simug.smk)
 
 * Tools: [`simuG`](https://github.com/yjx1217/simuG)
 * Script: `simuG.pl`
+* Parameters:
+    * n_snps: `r yaml::read_yaml("config/config.dag.yml")$n_snps`
 
-## Mutations
+### [iss_cambium](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/iss_cambium.smk)
 
-### [generate_mutations](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_mutations.smk)
+* Script: [`iss.sh`](https://bedtools.readthedocs.io/en/latest/content/scripts/iss.sh)
+* Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
+* Singularity:  docker://hadrieng/insilicoseq:latest
+* Parameters:
+    * n_reads_cambium: `r yaml::read_yaml("config/config.dag.yml")$n_reads_cambium`
+    
+## Leaves
+
+### [generate_mutations_branch](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/generate_mutations_branch.smk)
 
 * Script: [`generate_mutations.R`](https://bedtools.readthedocs.io/en/latest/content/scripts/generate_mutations.R)
 * Singularity:"https://github.com/sylvainschmitt/singularity-template/releases/download/0.0.1/sylvainschmitt-singularity-tidyverse-Biostrings.latest.sif"
 * Parameters:
-    * Number: `r yaml::read_yaml("config/config.dag.yml")$n_mut`
-    * Transition/Transversion ratio R (see below): `r yaml::read_yaml("config/config.dag.yml")$R`
+    * n_mut: `r yaml::read_yaml("config/config.dag.yml")$n_mut`
+    * R: `r yaml::read_yaml("config/config.dag.yml")$R`
+    
+### [generate_mutations_tip](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/generate_mutations_branch_tip.smk)
 
-## Reads
+* Script: [`generate_mutations.R`](https://bedtools.readthedocs.io/en/latest/content/scripts/generate_mutations.R)
+* Singularity:"https://github.com/sylvainschmitt/singularity-template/releases/download/0.0.1/sylvainschmitt-singularity-tidyverse-Biostrings.latest.sif"
+* Parameters:
+    * n_mut: `r yaml::read_yaml("config/config.dag.yml")$n_mut`
+    * R: `r yaml::read_yaml("config/config.dag.yml")$R`
 
-### [iss_base](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_base.smk)
+### [iss_leaf](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/iss_leaf.smk)
 
+* Script: [`iss.sh`](https://bedtools.readthedocs.io/en/latest/content/scripts/iss.sh)
 * Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
 * Singularity:  docker://hadrieng/insilicoseq:latest
 * Parameters:
-    * Allele frequency: `r yaml::read_yaml("config/config.dag.yml")$AF`
-    * Number of reads: `r yaml::read_yaml("config/config.dag.yml")$n_reads`
+    * n_reads_leaf_mutated: `r yaml::read_yaml("config/config.dag.yml")$n_reads_leaf_mutated`
+    * n_reads_leaf_base: `r yaml::read_yaml("config/config.dag.yml")$n_reads_leaf_base`
 
-### [iss_mutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_mutated.smk)
-
-* Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
-* Singularity:  docker://hadrieng/insilicoseq:latest
-* Parameters:
-    * Allele frequency: `r yaml::read_yaml("config/config.dag.yml")$AF`
-    * Number of reads: `r yaml::read_yaml("config/config.dag.yml")$n_reads`
-
-### [iss_unmutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_unmutated.smk)
-
-* Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
-* Singularity:  docker://hadrieng/insilicoseq:latest
-* Parameters:
-    * Allele frequency: `r yaml::read_yaml("config/config.dag.yml")$AF`
-    * Number of reads: `r yaml::read_yaml("config/config.dag.yml")$n_reads`
-
-### [merge_reads](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/merge_reads.smk)
-
-* Tools: `cat`
-
-# ToDo
+# To do
 
 - [ ] varying AF
 - [ ] defined genetic distance between samples based on an architecture

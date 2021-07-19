@@ -1,8 +1,8 @@
 rule generate_mutations_branch:
     input:
-        expand("results/reference/{seq}.fa", seq=[config["sequence"]])
+        "results/trunk/trunk.fa"
     output:
-        expand("results/branches/B{branch}.{ext}", ext=["tsv", "fa"], allow_missing=True)
+        expand("results/branch/B{branch}.{ext}", ext=["tsv", "fa"], allow_missing=True)
     log:
         "results/logs/generate_mutations_branch_{branch}.log"
     benchmark:

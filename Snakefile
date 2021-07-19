@@ -5,21 +5,20 @@ configfile: "config/config.dag.yml"
 
 rule all:
     input:
-        expand("results/trunk/trunk{ext}", ext=[".fa", "_snps.fa", "_snps.vcf", "_snps.map"]),
-        expand("results/tips/B{branch}_T{condition}.{ext}", branch=config["branches"], condition=["L", "O"], ext=["tsv", "fa"]),
-        expand("results/reads/B{branch}_T{condition}_R{strand}.fq", branch=config["branches"], condition=["L", "O"], strand=[1, 2])
+        expand("results/reads/trunk_C{cambium}_R{strand}.fq", cambium=config["cambiums"], strand=[1, 2]), # cambium
+        expand("results/reads/B{branch}_T{tip}_L{leaf}_R{strand}.fq", 
+                branch=config["branches"], tip=config["tips"], leaf=config["leaves"], strand=[1, 2]) # leaves
+        
 
 # Rules
 
-## Trunk ##
+## Cambiums ##
 include: "rules/cp_ref.smk"
 include: "rules/vcf2model.smk"
 include: "rules/simug.smk"
+include: "rules/iss_cambium.smk"
 
-## Branches ##
+## Leaves ##
 include: "rules/generate_mutations_branch.smk"
 include: "rules/generate_mutations_tip.smk"
-
-## Reads ##
-include: "rules/iss_tips.smk"
-
+include: "rules/iss_leaf.smk"

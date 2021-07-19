@@ -10,10 +10,9 @@ Jully 16, 2021
       - [Locally](#locally)
       - [HPC](#hpc)
   - [Workflow](#workflow)
-      - [Reference](#reference)
-      - [Mutations](#mutations)
-      - [Reads](#reads)
-  - [ToDo](#todo)
+      - [Cambiums](#cambiums)
+      - [Leaves](#leaves)
+  - [To do](#to-do)
 
 [`singularity` &
 `snakemake`](https://github.com/sylvainschmitt/snakemake_singularity)
@@ -94,72 +93,70 @@ snakemake --dag | dot -Tsvg > dag/dag.svg # dag
 
 # Workflow
 
-## Reference
+## Cambiums
 
-### [samtools\_faidx](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/samtools_faidx.smk)
+### [cp\_ref](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/cp_ref.smk)
 
-  - Tools: [`samtools
-    faidx`](http://www.htslib.org/doc/samtools-faidx.html)
-  - Singularity:
-    oras://registry.forgemia.inra.fr/gafl/singularity/samtools/samtools:latest
+  - Tools: `cp`
   - Parameters:
-      - Chromosome: Qrob\_Chr01
+      - sequence: Qrob\_PM1N\_7k
 
-### [vcf2model](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/vcf2model.smk)
+### [vcf2model](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/vcf2model.smk)
 
   - Tools: [`simuG`](https://github.com/yjx1217/simuG)
   - Script: `vcf2model.pl`
+  - Parameters:
+      - hz: siteshz3P.vcf
 
-### [simug](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/simug.smk)
+### [simug](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/simug.smk)
 
   - Tools: [`simuG`](https://github.com/yjx1217/simuG)
   - Script: `simuG.pl`
+  - Parameters:
+      - n\_snps: 70
 
-## Mutations
+### [iss\_cambium](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/iss_cambium.smk)
 
-### [generate\_mutations](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/generate_mutations.smk)
+  - Script:
+    [`iss.sh`](https://bedtools.readthedocs.io/en/latest/content/scripts/iss.sh)
+  - Tools:
+    [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
+  - Singularity: docker://hadrieng/insilicoseq:latest
+  - Parameters:
+      - n\_reads\_cambium: 9333
+
+## Leaves
+
+### [generate\_mutations\_branch](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/generate_mutations_branch.smk)
 
   - Script:
     [`generate_mutations.R`](https://bedtools.readthedocs.io/en/latest/content/scripts/generate_mutations.R)
   - Singularity:“<https://github.com/sylvainschmitt/singularity-template/releases/download/0.0.1/sylvainschmitt-singularity-tidyverse-Biostrings.latest.sif>”
   - Parameters:
-      - Number: 10
-      - Transition/Transversion ratio R (see below): 2
+      - n\_mut: 5
+      - R: 2
 
-## Reads
+### [generate\_mutations\_tip](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/generate_mutations_branch_tip.smk)
 
-### [iss\_base](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_base.smk)
+  - Script:
+    [`generate_mutations.R`](https://bedtools.readthedocs.io/en/latest/content/scripts/generate_mutations.R)
+  - Singularity:“<https://github.com/sylvainschmitt/singularity-template/releases/download/0.0.1/sylvainschmitt-singularity-tidyverse-Biostrings.latest.sif>”
+  - Parameters:
+      - n\_mut: 5
+      - R: 2
 
+### [iss\_leaf](https://github.com/sylvainschmitt/generateMutations/blob/angela/rules/iss_leaf.smk)
+
+  - Script:
+    [`iss.sh`](https://bedtools.readthedocs.io/en/latest/content/scripts/iss.sh)
   - Tools:
     [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
   - Singularity: docker://hadrieng/insilicoseq:latest
   - Parameters:
-      - Allele frequency: 0.3
-      - Number of reads: 9333
+      - n\_reads\_leaf\_mutated: 280
+      - n\_reads\_leaf\_base: 653
 
-### [iss\_mutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_mutated.smk)
-
-  - Tools:
-    [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
-  - Singularity: docker://hadrieng/insilicoseq:latest
-  - Parameters:
-      - Allele frequency: 0.3
-      - Number of reads: 9333
-
-### [iss\_unmutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_unmutated.smk)
-
-  - Tools:
-    [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
-  - Singularity: docker://hadrieng/insilicoseq:latest
-  - Parameters:
-      - Allele frequency: 0.3
-      - Number of reads: 9333
-
-### [merge\_reads](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/merge_reads.smk)
-
-  - Tools: `cat`
-
-# ToDo
+# To do
 
   - [ ] varying AF
   - [ ] defined genetic distance between samples based on an

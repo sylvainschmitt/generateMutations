@@ -10,13 +10,16 @@ hz: "siteshz3P.vcf"
 n_snps: 70 # pi = 0.01 , L = 7 kb , N = pi*L = 70 
 
 # Mutations
-n_mut: 5 # multivalues
-R: 2 # transition/transversion ratio # multivalues
+n_mut: 5 # trunk -> branch et branch -> tip
+R: 2 # transition/transversion ratio
 
 # Reads
-AF: 0.3 # allelic fraction # multivalues
-n_reads: 9333 # 200X : 7kbp ref/ 150bp reads * 150 cov # multivalues
-REP: 1
+n_reads_leaf_base: 653  # 200X : 7kbp ref/ 150bp reads * 150 cov * (1 - 0.3 AF)
+n_reads_leaf_mutated: 280 # 200X : 7kbp ref/ 150bp reads * 150 cov * 0.3 AF
+n_reads_cambium: 9333 # 200X : 7kbp ref/ 150bp reads * 150 cov
 
 # Sampling
+cambiums: [1, 2, 3]
 branches: [1]
+tips: ["L", "O"]
+leaves: [1, 2, 3]

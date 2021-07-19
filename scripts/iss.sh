@@ -46,5 +46,4 @@ if [ "$n_mut" -eq "0" ]
   then
     mv "$file"_bas_R1.fastq "$file"_R1.fq
     mv "$file"_bas_R2.fastq "$file"_R2.fq
-    rm "$file"_bas_R1.fastq "$file"_bas_R2.fastq
 fi
