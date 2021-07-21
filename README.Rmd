@@ -155,7 +155,7 @@ snakemake --dag | dot -Tsvg > dag/dag.svg # dag
     * n_reads_leaf_mutated: `r yaml::read_yaml("config/config.dag.yml")$n_reads_leaf_mutated`
     * n_reads_leaf_base: `r yaml::read_yaml("config/config.dag.yml")$n_reads_leaf_base`
 
-# To do
+# To Do
 
 - [ ] varying AF
 - [ ] defined genetic distance between samples based on an architecture

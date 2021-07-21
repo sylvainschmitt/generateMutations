@@ -12,7 +12,7 @@ Jully 16, 2021
   - [Workflow](#workflow)
       - [Cambiums](#cambiums)
       - [Leaves](#leaves)
-  - [To do](#to-do)
+  - [To Do](#to-do)
 
 [`singularity` &
 `snakemake`](https://github.com/sylvainschmitt/snakemake_singularity)
@@ -156,7 +156,7 @@ snakemake --dag | dot -Tsvg > dag/dag.svg # dag
       - n\_reads\_leaf\_mutated: 280
       - n\_reads\_leaf\_base: 653
 
-# To do
+# To Do
 
   - [ ] varying AF
   - [ ] defined genetic distance between samples based on an
