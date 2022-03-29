@@ -5,11 +5,9 @@
 ressources: "ressources.genologin.yaml"
 
 # Sources
-sequence: "Qrob_PM1N_1M"
-genes: "Qrob_PM1N_genes_20161004.gff.gz"
-TE: "Qrob_PM1N_refTEs.gff.gz"
+genome: "Qrob_PM1N"
+L: 1000000 # subsampled length
 hz: "siteshz3P.vcf"
-chr: "Qrob_Chr01"
 n_snps: 10000 # pi = 0.01 , L = 1 Mb , N = pi*L = 10^4
 
 # Mutations

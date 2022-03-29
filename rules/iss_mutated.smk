@@ -1,12 +1,6 @@
-N=config["n_mut"]
-R=config["R"]
-AF=config["AF"]
-NR=config["n_reads"]
-REP=config["REP"]
-
 rule iss_mutated:
     input:
-        expand("results/mutations/{seq}_{chr}_mutated_N{N}_R{R}.fa", seq=config["sequence"], chr=config["chr"], allow_missing=True)
+        expand("results/mutations/{genome}_REP{REP}_mutated_N{N}_R{R}.fa", genome=config["genome"], allow_missing=True)
     output:
         temp(expand("results/reads/mutatedtmp_N{N}_R{R}_AF{AF}_NR{NR}_REP{REP}_R{strand}.fastq", strand=["1", "2"], allow_missing=True))
     params:

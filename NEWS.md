@@ -1,3 +1,6 @@
+# generateMutation 0.2.0.9028
+* adding random repetitions with sample_genome following reviewer2's comment
+
 # generateMutation 0.2.0.9027
 * adding repetitions (10)
 

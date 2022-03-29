@@ -1,13 +1,7 @@
-N=config["n_mut"]
-R=config["R"]
-AF=config["AF"]
-NR=config["n_reads"]
-REP=config["REP"]
-
 rule iss_base:
     input:
-       expand("results/reference/{seq}_{chr}.fa", seq=[config["sequence"]],  chr=[config["chr"]]),
-       expand("results/reference/{seq}_{chr}_snps.fa", seq=[config["sequence"]],  chr=[config["chr"]])
+       expand("results/reference/{genome}_REP{REP}.fa", genome=config["genome"], allow_missing=True),
+       expand("results/reference/{genome}_REP{REP}_snps.fa", genome=config["genome"], allow_missing=True)
     output:
        expand("results/reads/N{N}_R{R}_AF{AF}_NR{NR}_REP{REP}_base_R{strand}.fastq", strand=["1", "2"], allow_missing=True)
     log:
