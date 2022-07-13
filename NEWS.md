@@ -1,10 +1,13 @@
-# generateMutation 0.2.0.9028
+# generateMutation 0.1.0.9029
+* Versioning singularity images for reproductibility
+
+# generateMutation 0.1.0.9028
 * adding random repetitions with sample_genome following reviewer2's comment
 
-# generateMutation 0.2.0.9027
+# generateMutation 0.1.0.9027
 * adding repetitions (10)
 
-# generateMutation 0.2.0.9026
+# generateMutation 0.1.0.9026
 * correct versioning
 * correct threading and memory
 * new 1Mb experiment

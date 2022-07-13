@@ -15,7 +15,7 @@ rule iss_base:
        NR = "{NR}",
        REP = "{REP}"
     singularity: 
-       "docker://hadrieng/insilicoseq:latest"
+       "docker://hadrieng/insilicoseq:1.5.3"
     threads: 8
     resources:
         mem_mb=32000

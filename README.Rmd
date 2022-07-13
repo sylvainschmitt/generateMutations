@@ -134,7 +134,7 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 ### [iss_base](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_base.smk)
 
 * Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
-* Singularity:  docker://hadrieng/insilicoseq:latest
+* Singularity:  docker://hadrieng/insilicoseq:1.5.3
 * Parameters:
     * Allele frequency: `r yaml::read_yaml("config/config.dag.yml")$AF`
     * Number of reads: `r yaml::read_yaml("config/config.dag.yml")$n_reads`
@@ -142,7 +142,7 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 ### [iss_mutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_mutated.smk)
 
 * Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
-* Singularity:  docker://hadrieng/insilicoseq:latest
+* Singularity:  docker://hadrieng/insilicoseq:1.5.3
 * Parameters:
     * Allele frequency: `r yaml::read_yaml("config/config.dag.yml")$AF`
     * Number of reads: `r yaml::read_yaml("config/config.dag.yml")$n_reads`
@@ -150,7 +150,7 @@ include_graphics("https://dridk.me/images/post17/transition_transversion.png")
 ### [iss_unmutated](https://github.com/sylvainschmitt/generateMutations/blob/main/rules/iss_unmutated.smk)
 
 * Tools: [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
-* Singularity:  docker://hadrieng/insilicoseq:latest
+* Singularity:  docker://hadrieng/insilicoseq:1.5.3
 * Parameters:
     * Allele frequency: `r yaml::read_yaml("config/config.dag.yml")$AF`
     * Number of reads: `r yaml::read_yaml("config/config.dag.yml")$n_reads`

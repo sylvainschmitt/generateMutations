@@ -14,7 +14,7 @@ rule iss_mutated:
     benchmark:
         "results/benchmarks/iss_mutateds_N{N}_R{R}_AF{AF}_NR{NR}_REP{REP}.benchmark.txt"
     singularity: 
-        "docker://hadrieng/insilicoseq:latest"
+        "docker://hadrieng/insilicoseq:1.5.3"
     threads: 8
     resources:
         mem_mb=32000
