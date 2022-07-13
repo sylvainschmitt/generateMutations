@@ -130,7 +130,7 @@ snakemake --report report.html # report
 
   - Tools:
     [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
-  - Singularity: docker://hadrieng/insilicoseq:latest
+  - Singularity: docker://hadrieng/insilicoseq:1.5.3
   - Parameters:
       - Allele frequency: 0.6
       - Number of reads: 7000
@@ -139,7 +139,7 @@ snakemake --report report.html # report
 
   - Tools:
     [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
-  - Singularity: docker://hadrieng/insilicoseq:latest
+  - Singularity: docker://hadrieng/insilicoseq:1.5.3
   - Parameters:
       - Allele frequency: 0.6
       - Number of reads: 7000
@@ -148,7 +148,7 @@ snakemake --report report.html # report
 
   - Tools:
     [`insilicoseq`](https://insilicoseq.readthedocs.io/en/latest/)
-  - Singularity: docker://hadrieng/insilicoseq:latest
+  - Singularity: docker://hadrieng/insilicoseq:1.5.3
   - Parameters:
       - Allele frequency: 0.6
       - Number of reads: 7000
